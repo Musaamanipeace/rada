@@ -1,0 +1,12 @@
+# =============================================================================
+# Rada CODEOWNERS
+# Changes to any of these paths require explicit Owner approval (Section 15).
+# =============================================================================
+
+/AGENTS.md                   @owner
+/data/taxonomy.json          @owner
+/docs/privacy.md             @owner
+/docs/ad-policy.md           @owner
+/src/lib/ranking/            @owner
+/src/lib/ads/billing/        @owner
+/prisma/migrations/          @owner

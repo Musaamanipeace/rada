@@ -1,0 +1,496 @@
+{
+  "version": "1.0.0",
+  "categories": [
+    {
+      "id": "cat-read",
+      "slug": "read",
+      "name": "Read",
+      "sort": 1,
+      "subcategories": [
+        {
+          "id": "sub-news-articles",
+          "slug": "news-articles",
+          "name": "News articles",
+          "sort": 1,
+          "topics": [
+            { "id": "top-news-articles-world", "slug": "news-articles-world", "name": "World", "sort": 1 },
+            { "id": "top-news-articles-local", "slug": "news-articles-local", "name": "Local", "sort": 2 },
+            { "id": "top-news-articles-business", "slug": "news-articles-business", "name": "Business", "sort": 3 },
+            { "id": "top-news-articles-tech-and-science", "slug": "news-articles-tech-and-science", "name": "Tech and science", "sort": 4 },
+            { "id": "top-news-articles-culture", "slug": "news-articles-culture", "name": "Culture", "sort": 5 },
+            { "id": "top-news-articles-opinion", "slug": "news-articles-opinion", "name": "Opinion", "sort": 6 }
+          ]
+        },
+        {
+          "id": "sub-books",
+          "slug": "books",
+          "name": "Books",
+          "sort": 2,
+          "topics": [
+            { "id": "top-books-fiction", "slug": "books-fiction", "name": "Fiction", "sort": 1 },
+            { "id": "top-books-non-fiction", "slug": "books-non-fiction", "name": "Non-fiction", "sort": 2 },
+            { "id": "top-books-biography", "slug": "books-biography", "name": "Biography", "sort": 3 },
+            { "id": "top-books-self-development", "slug": "books-self-development", "name": "Self-development", "sort": 4 },
+            { "id": "top-books-children-and-young-adult", "slug": "books-children-and-young-adult", "name": "Children and young adult", "sort": 5 },
+            { "id": "top-books-comics-and-graphic-novels", "slug": "books-comics-and-graphic-novels", "name": "Comics and graphic novels", "sort": 6 }
+          ]
+        },
+        {
+          "id": "sub-blogs-and-newsletters",
+          "slug": "blogs-and-newsletters",
+          "name": "Blogs and newsletters",
+          "sort": 3,
+          "topics": [
+            { "id": "top-blogs-and-newsletters-tech", "slug": "blogs-and-newsletters-tech", "name": "Tech", "sort": 1 },
+            { "id": "top-blogs-and-newsletters-finance", "slug": "blogs-and-newsletters-finance", "name": "Finance", "sort": 2 },
+            { "id": "top-blogs-and-newsletters-creative", "slug": "blogs-and-newsletters-creative", "name": "Creative", "sort": 3 },
+            { "id": "top-blogs-and-newsletters-lifestyle", "slug": "blogs-and-newsletters-lifestyle", "name": "Lifestyle", "sort": 4 },
+            { "id": "top-blogs-and-newsletters-industry-insights", "slug": "blogs-and-newsletters-industry-insights", "name": "Industry insights", "sort": 5 }
+          ]
+        },
+        {
+          "id": "sub-guides-and-other-written-resources",
+          "slug": "guides-and-other-written-resources",
+          "name": "Guides and other written resources",
+          "sort": 4,
+          "topics": [
+            { "id": "top-guides-how-to-guides", "slug": "guides-how-to-guides", "name": "How-to guides", "sort": 1 },
+            { "id": "top-guides-research-and-reports", "slug": "guides-research-and-reports", "name": "Research and reports", "sort": 2 },
+            { "id": "top-guides-reference", "slug": "guides-reference", "name": "Reference", "sort": 3 },
+            { "id": "top-guides-templates-and-checklists", "slug": "guides-templates-and-checklists", "name": "Templates and checklists", "sort": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cat-watch",
+      "slug": "watch",
+      "name": "Watch",
+      "sort": 2,
+      "subcategories": [
+        {
+          "id": "sub-movies",
+          "slug": "movies",
+          "name": "Movies",
+          "sort": 1,
+          "topics": [
+            { "id": "top-movies-now-showing", "slug": "movies-now-showing", "name": "Now showing", "sort": 1 },
+            { "id": "top-movies-classics", "slug": "movies-classics", "name": "Classics", "sort": 2 },
+            { "id": "top-movies-hidden-gems", "slug": "movies-hidden-gems", "name": "Hidden gems", "sort": 3 },
+            { "id": "top-movies-award-winners", "slug": "movies-award-winners", "name": "Award winners", "sort": 4 }
+          ]
+        },
+        {
+          "id": "sub-series",
+          "slug": "series",
+          "name": "Series",
+          "sort": 2,
+          "topics": [
+            { "id": "top-series-currently-airing", "slug": "series-currently-airing", "name": "Currently airing", "sort": 1 },
+            { "id": "top-series-completed", "slug": "series-completed", "name": "Completed", "sort": 2 },
+            { "id": "top-series-binge-worthy", "slug": "series-binge-worthy", "name": "Binge-worthy", "sort": 3 },
+            { "id": "top-series-hidden-gems", "slug": "series-hidden-gems", "name": "Hidden gems", "sort": 4 }
+          ]
+        },
+        {
+          "id": "sub-documentaries",
+          "slug": "documentaries",
+          "name": "Documentaries",
+          "sort": 3,
+          "topics": [
+            { "id": "top-documentaries-nature", "slug": "documentaries-nature", "name": "Nature", "sort": 1 },
+            { "id": "top-documentaries-history", "slug": "documentaries-history", "name": "History", "sort": 2 },
+            { "id": "top-documentaries-science", "slug": "documentaries-science", "name": "Science", "sort": 3 },
+            { "id": "top-documentaries-society", "slug": "documentaries-society", "name": "Society", "sort": 4 },
+            { "id": "top-documentaries-biography", "slug": "documentaries-biography", "name": "Biography", "sort": 5 }
+          ]
+        },
+        {
+          "id": "sub-videos-creators-and-livestreams",
+          "slug": "videos-creators-and-livestreams",
+          "name": "Videos, creators and livestreams",
+          "sort": 4,
+          "topics": [
+            { "id": "top-videos-educational", "slug": "videos-educational", "name": "Educational", "sort": 1 },
+            { "id": "top-videos-entertainment", "slug": "videos-entertainment", "name": "Entertainment", "sort": 2 },
+            { "id": "top-videos-creator-spotlights", "slug": "videos-creator-spotlights", "name": "Creator spotlights", "sort": 3 },
+            { "id": "top-videos-live-now", "slug": "videos-live-now", "name": "Live now", "sort": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cat-listen",
+      "slug": "listen",
+      "name": "Listen",
+      "sort": 3,
+      "subcategories": [
+        {
+          "id": "sub-music",
+          "slug": "music",
+          "name": "Music",
+          "sort": 1,
+          "topics": [
+            { "id": "top-music-new-releases", "slug": "music-new-releases", "name": "New releases", "sort": 1 },
+            { "id": "top-music-playlists", "slug": "music-playlists", "name": "Playlists", "sort": 2 },
+            { "id": "top-music-artists", "slug": "music-artists", "name": "Artists", "sort": 3 },
+            { "id": "top-music-live-sessions", "slug": "music-live-sessions", "name": "Live sessions", "sort": 4 }
+          ]
+        },
+        {
+          "id": "sub-podcasts",
+          "slug": "podcasts",
+          "name": "Podcasts",
+          "sort": 2,
+          "topics": [
+            { "id": "top-podcasts-interviews", "slug": "podcasts-interviews", "name": "Interviews", "sort": 1 },
+            { "id": "top-podcasts-educational", "slug": "podcasts-educational", "name": "Educational", "sort": 2 },
+            { "id": "top-podcasts-storytelling", "slug": "podcasts-storytelling", "name": "Storytelling", "sort": 3 },
+            { "id": "top-podcasts-news", "slug": "podcasts-news", "name": "News", "sort": 4 },
+            { "id": "top-podcasts-comedy", "slug": "podcasts-comedy", "name": "Comedy", "sort": 5 }
+          ]
+        },
+        {
+          "id": "sub-audiobooks-radio-and-other-audio",
+          "slug": "audiobooks-radio-and-other-audio",
+          "name": "Audiobooks, radio and other audio",
+          "sort": 3,
+          "topics": [
+            { "id": "top-audio-audiobooks", "slug": "audio-audiobooks", "name": "Audiobooks", "sort": 1 },
+            { "id": "top-audio-radio-stations", "slug": "audio-radio-stations", "name": "Radio stations", "sort": 2 },
+            { "id": "top-audio-ambient-and-focus-sounds", "slug": "audio-ambient-and-focus-sounds", "name": "Ambient and focus sounds", "sort": 3 },
+            { "id": "top-audio-guided-audio", "slug": "audio-guided-audio", "name": "Guided audio", "sort": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cat-learn",
+      "slug": "learn",
+      "name": "Learn",
+      "sort": 4,
+      "subcategories": [
+        {
+          "id": "sub-online-courses",
+          "slug": "online-courses",
+          "name": "Online courses",
+          "sort": 1,
+          "topics": [
+            { "id": "top-online-courses-university-backed", "slug": "online-courses-university-backed", "name": "University-backed", "sort": 1 },
+            { "id": "top-online-courses-certificate-programs", "slug": "online-courses-certificate-programs", "name": "Certificate programs", "sort": 2 },
+            { "id": "top-online-courses-self-paced", "slug": "online-courses-self-paced", "name": "Self-paced", "sort": 3 },
+            { "id": "top-online-courses-cohort-based", "slug": "online-courses-cohort-based", "name": "Cohort-based", "sort": 4 }
+          ]
+        },
+        {
+          "id": "sub-tutorials-and-practical-skills",
+          "slug": "tutorials-and-practical-skills",
+          "name": "Tutorials and practical skills",
+          "sort": 2,
+          "topics": [
+            { "id": "top-tutorials-tech", "slug": "tutorials-tech", "name": "Tech", "sort": 1 },
+            { "id": "top-tutorials-creative", "slug": "tutorials-creative", "name": "Creative", "sort": 2 },
+            { "id": "top-tutorials-trades", "slug": "tutorials-trades", "name": "Trades", "sort": 3 },
+            { "id": "top-tutorials-life-skills", "slug": "tutorials-life-skills", "name": "Life skills", "sort": 4 },
+            { "id": "top-tutorials-languages", "slug": "tutorials-languages", "name": "Languages", "sort": 5 }
+          ]
+        },
+        {
+          "id": "sub-career-and-professional-development",
+          "slug": "career-and-professional-development",
+          "name": "Career and professional development",
+          "sort": 3,
+          "topics": [
+            { "id": "top-career-interview-prep", "slug": "career-interview-prep", "name": "Interview prep", "sort": 1 },
+            { "id": "top-career-skills-upgrades", "slug": "career-skills-upgrades", "name": "Skills upgrades", "sort": 2 },
+            { "id": "top-career-leadership", "slug": "career-leadership", "name": "Leadership", "sort": 3 },
+            { "id": "top-career-industry-certifications", "slug": "career-industry-certifications", "name": "Industry certifications", "sort": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cat-play",
+      "slug": "play",
+      "name": "Play",
+      "sort": 5,
+      "subcategories": [
+        {
+          "id": "sub-online-games",
+          "slug": "online-games",
+          "name": "Online games",
+          "sort": 1,
+          "topics": [
+            { "id": "top-online-games-single-player", "slug": "online-games-single-player", "name": "Single player", "sort": 1 },
+            { "id": "top-online-games-multiplayer", "slug": "online-games-multiplayer", "name": "Multiplayer", "sort": 2 },
+            { "id": "top-online-games-casual", "slug": "online-games-casual", "name": "Casual", "sort": 3 },
+            { "id": "top-online-games-strategy", "slug": "online-games-strategy", "name": "Strategy", "sort": 4 }
+          ]
+        },
+        {
+          "id": "sub-puzzles-quizzes-simulations-and-interactive-stories",
+          "slug": "puzzles-quizzes-simulations-and-interactive-stories",
+          "name": "Puzzles, quizzes, simulations and interactive stories",
+          "sort": 2,
+          "topics": [
+            { "id": "top-puzzles-puzzles", "slug": "puzzles-puzzles", "name": "Puzzles", "sort": 1 },
+            { "id": "top-puzzles-quizzes", "slug": "puzzles-quizzes", "name": "Quizzes", "sort": 2 },
+            { "id": "top-puzzles-simulations", "slug": "puzzles-simulations", "name": "Simulations", "sort": 3 },
+            { "id": "top-puzzles-interactive-fiction", "slug": "puzzles-interactive-fiction", "name": "Interactive fiction", "sort": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cat-connect",
+      "slug": "connect",
+      "name": "Connect",
+      "sort": 6,
+      "subcategories": [
+        {
+          "id": "sub-social-media-accounts",
+          "slug": "social-media-accounts",
+          "name": "Social media accounts",
+          "sort": 1,
+          "topics": [
+            { "id": "top-social-media-creators", "slug": "social-media-creators", "name": "Creators", "sort": 1 },
+            { "id": "top-social-media-experts", "slug": "social-media-experts", "name": "Experts", "sort": 2 },
+            { "id": "top-social-media-brands", "slug": "social-media-brands", "name": "Brands", "sort": 3 },
+            { "id": "top-social-media-public-figures", "slug": "social-media-public-figures", "name": "Public figures", "sort": 4 }
+          ]
+        },
+        {
+          "id": "sub-forums-and-online-communities",
+          "slug": "forums-and-online-communities",
+          "name": "Forums and online communities",
+          "sort": 2,
+          "topics": [
+            { "id": "top-forums-hobby", "slug": "forums-hobby", "name": "Hobby", "sort": 1 },
+            { "id": "top-forums-professional", "slug": "forums-professional", "name": "Professional", "sort": 2 },
+            { "id": "top-forums-support", "slug": "forums-support", "name": "Support", "sort": 3 },
+            { "id": "top-forums-local", "slug": "forums-local", "name": "Local", "sort": 4 }
+          ]
+        },
+        {
+          "id": "sub-discussion-groups-and-clubs",
+          "slug": "discussion-groups-and-clubs",
+          "name": "Discussion groups and clubs",
+          "sort": 3,
+          "topics": [
+            { "id": "top-discussion-groups-book-clubs", "slug": "discussion-groups-book-clubs", "name": "Book clubs", "sort": 1 },
+            { "id": "top-discussion-groups-study-groups", "slug": "discussion-groups-study-groups", "name": "Study groups", "sort": 2 },
+            { "id": "top-discussion-groups-interest-clubs", "slug": "discussion-groups-interest-clubs", "name": "Interest clubs", "sort": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cat-make-and-explore",
+      "slug": "make-and-explore",
+      "name": "Make and Explore",
+      "sort": 7,
+      "subcategories": [
+        {
+          "id": "sub-hobbies-crafts-and-diy-projects",
+          "slug": "hobbies-crafts-and-diy-projects",
+          "name": "Hobbies, crafts and DIY projects",
+          "sort": 1,
+          "topics": [
+            { "id": "top-hobbies-crafts", "slug": "hobbies-crafts", "name": "Crafts", "sort": 1 },
+            { "id": "top-hobbies-home-projects", "slug": "hobbies-home-projects", "name": "Home projects", "sort": 2 },
+            { "id": "top-hobbies-cooking", "slug": "hobbies-cooking", "name": "Cooking", "sort": 3 },
+            { "id": "top-hobbies-gardening", "slug": "hobbies-gardening", "name": "Gardening", "sort": 4 }
+          ]
+        },
+        {
+          "id": "sub-creative-prompts-and-projects",
+          "slug": "creative-prompts-and-projects",
+          "name": "Creative prompts and projects",
+          "sort": 2,
+          "topics": [
+            { "id": "top-creative-prompts-writing", "slug": "creative-prompts-writing", "name": "Writing", "sort": 1 },
+            { "id": "top-creative-prompts-art-and-design", "slug": "creative-prompts-art-and-design", "name": "Art and design", "sort": 2 },
+            { "id": "top-creative-prompts-music", "slug": "creative-prompts-music", "name": "Music", "sort": 3 },
+            { "id": "top-creative-prompts-photography", "slug": "creative-prompts-photography", "name": "Photography", "sort": 4 }
+          ]
+        },
+        {
+          "id": "sub-apps-tools-and-useful-websites",
+          "slug": "apps-tools-and-useful-websites",
+          "name": "Apps, tools and useful websites",
+          "sort": 3,
+          "topics": [
+            { "id": "top-apps-productivity", "slug": "apps-productivity", "name": "Productivity", "sort": 1 },
+            { "id": "top-apps-creative-tools", "slug": "apps-creative-tools", "name": "Creative tools", "sort": 2 },
+            { "id": "top-apps-learning-tools", "slug": "apps-learning-tools", "name": "Learning tools", "sort": 3 },
+            { "id": "top-apps-utilities", "slug": "apps-utilities", "name": "Utilities", "sort": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cat-attend-and-experience",
+      "slug": "attend-and-experience",
+      "name": "Attend and Experience",
+      "sort": 8,
+      "subcategories": [
+        {
+          "id": "sub-online-events",
+          "slug": "online-events",
+          "name": "Online events",
+          "sort": 1,
+          "topics": [
+            { "id": "top-online-events-webinars", "slug": "online-events-webinars", "name": "Webinars", "sort": 1 },
+            { "id": "top-online-events-workshops", "slug": "online-events-workshops", "name": "Workshops", "sort": 2 },
+            { "id": "top-online-events-conferences", "slug": "online-events-conferences", "name": "Conferences", "sort": 3 },
+            { "id": "top-online-events-live-streams", "slug": "online-events-live-streams", "name": "Live streams", "sort": 4 }
+          ]
+        },
+        {
+          "id": "sub-in-person-events",
+          "slug": "in-person-events",
+          "name": "In-person events",
+          "sort": 2,
+          "topics": [
+            { "id": "top-in-person-events-concerts", "slug": "in-person-events-concerts", "name": "Concerts", "sort": 1 },
+            { "id": "top-in-person-events-meetups", "slug": "in-person-events-meetups", "name": "Meetups", "sort": 2 },
+            { "id": "top-in-person-events-festivals", "slug": "in-person-events-festivals", "name": "Festivals", "sort": 3 },
+            { "id": "top-in-person-events-exhibitions", "slug": "in-person-events-exhibitions", "name": "Exhibitions", "sort": 4 }
+          ]
+        },
+        {
+          "id": "sub-virtual-tours-and-places-to-explore",
+          "slug": "virtual-tours-and-places-to-explore",
+          "name": "Virtual tours and places to explore",
+          "sort": 3,
+          "topics": [
+            { "id": "top-virtual-tours-museums", "slug": "virtual-tours-museums", "name": "Museums", "sort": 1 },
+            { "id": "top-virtual-tours-landmarks", "slug": "virtual-tours-landmarks", "name": "Landmarks", "sort": 2 },
+            { "id": "top-virtual-tours-nature", "slug": "virtual-tours-nature", "name": "Nature", "sort": 3 }
+          ]
+        },
+        {
+          "id": "sub-local-activities",
+          "slug": "local-activities",
+          "name": "Local activities",
+          "sort": 4,
+          "topics": [
+            { "id": "top-local-activities-outdoors", "slug": "local-activities-outdoors", "name": "Outdoors", "sort": 1 },
+            { "id": "top-local-activities-food-and-drink", "slug": "local-activities-food-and-drink", "name": "Food and drink", "sort": 2 },
+            { "id": "top-local-activities-family", "slug": "local-activities-family", "name": "Family", "sort": 3 },
+            { "id": "top-local-activities-arts-and-culture", "slug": "local-activities-arts-and-culture", "name": "Arts and culture", "sort": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cat-improve-and-contribute",
+      "slug": "improve-and-contribute",
+      "name": "Improve and Contribute",
+      "sort": 9,
+      "subcategories": [
+        {
+          "id": "sub-wellness-and-fitness",
+          "slug": "wellness-and-fitness",
+          "name": "Wellness and fitness",
+          "sort": 1,
+          "topics": [
+            { "id": "top-wellness-exercise", "slug": "wellness-exercise", "name": "Exercise", "sort": 1 },
+            { "id": "top-wellness-mental-wellbeing", "slug": "wellness-mental-wellbeing", "name": "Mental wellbeing", "sort": 2 },
+            { "id": "top-wellness-nutrition", "slug": "wellness-nutrition", "name": "Nutrition", "sort": 3 },
+            { "id": "top-wellness-sleep", "slug": "wellness-sleep", "name": "Sleep", "sort": 4 }
+          ]
+        },
+        {
+          "id": "sub-volunteering-and-community-causes",
+          "slug": "volunteering-and-community-causes",
+          "name": "Volunteering and community causes",
+          "sort": 2,
+          "topics": [
+            { "id": "top-volunteering-local", "slug": "volunteering-local", "name": "Local", "sort": 1 },
+            { "id": "top-volunteering-remote", "slug": "volunteering-remote", "name": "Remote", "sort": 2 },
+            { "id": "top-volunteering-skills-based", "slug": "volunteering-skills-based", "name": "Skills-based", "sort": 3 },
+            { "id": "top-volunteering-one-off", "slug": "volunteering-one-off", "name": "One-off", "sort": 4 }
+          ]
+        },
+        {
+          "id": "sub-civic-or-environmental-participation",
+          "slug": "civic-or-environmental-participation",
+          "name": "Civic or environmental participation",
+          "sort": 3,
+          "topics": [
+            { "id": "top-civic-clean-ups", "slug": "civic-clean-ups", "name": "Clean-ups", "sort": 1 },
+            { "id": "top-civic-community-projects", "slug": "civic-community-projects", "name": "Community projects", "sort": 2 },
+            { "id": "top-civic-campaigns", "slug": "civic-campaigns", "name": "Campaigns", "sort": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cat-earn-and-build",
+      "slug": "earn-and-build",
+      "name": "Earn and Build",
+      "sort": 10,
+      "subcategories": [
+        {
+          "id": "sub-passive-income-activities",
+          "slug": "passive-income-activities",
+          "name": "Passive-income activities",
+          "sort": 1,
+          "topics": [
+            { "id": "top-passive-income-digital-products", "slug": "passive-income-digital-products", "name": "Digital products", "sort": 1 },
+            { "id": "top-passive-income-investing-basics", "slug": "passive-income-investing-basics", "name": "Investing basics", "sort": 2 },
+            { "id": "top-passive-income-content-based", "slug": "passive-income-content-based", "name": "Content-based", "sort": 3 }
+          ]
+        },
+        {
+          "id": "sub-scholarships-and-grants",
+          "slug": "scholarships-and-grants",
+          "name": "Scholarships and grants",
+          "sort": 2,
+          "topics": [
+            { "id": "top-scholarships-students", "slug": "scholarships-students", "name": "Students", "sort": 1 },
+            { "id": "top-scholarships-creatives", "slug": "scholarships-creatives", "name": "Creatives", "sort": 2 },
+            { "id": "top-scholarships-small-business", "slug": "scholarships-small-business", "name": "Small business", "sort": 3 },
+            { "id": "top-scholarships-research", "slug": "scholarships-research", "name": "Research", "sort": 4 }
+          ]
+        },
+        {
+          "id": "sub-hackathons-and-competitions",
+          "slug": "hackathons-and-competitions",
+          "name": "Hackathons and competitions",
+          "sort": 3,
+          "topics": [
+            { "id": "top-hackathons-coding", "slug": "hackathons-coding", "name": "Coding", "sort": 1 },
+            { "id": "top-hackathons-writing", "slug": "hackathons-writing", "name": "Writing", "sort": 2 },
+            { "id": "top-hackathons-design", "slug": "hackathons-design", "name": "Design", "sort": 3 },
+            { "id": "top-hackathons-business", "slug": "hackathons-business", "name": "Business", "sort": 4 }
+          ]
+        },
+        {
+          "id": "sub-side-projects-and-small-businesses",
+          "slug": "side-projects-and-small-businesses",
+          "name": "Side projects and small businesses",
+          "sort": 4,
+          "topics": [
+            { "id": "top-side-projects-ideas", "slug": "side-projects-ideas", "name": "Ideas", "sort": 1 },
+            { "id": "top-side-projects-starter-guides", "slug": "side-projects-starter-guides", "name": "Starter guides", "sort": 2 },
+            { "id": "top-side-projects-funding", "slug": "side-projects-funding", "name": "Funding", "sort": 3 }
+          ]
+        },
+        {
+          "id": "sub-money-and-career-resources",
+          "slug": "money-and-career-resources",
+          "name": "Money and career resources",
+          "sort": 5,
+          "topics": [
+            { "id": "top-money-budgeting", "slug": "money-budgeting", "name": "Budgeting", "sort": 1 },
+            { "id": "top-money-taxes", "slug": "money-taxes", "name": "Taxes", "sort": 2 },
+            { "id": "top-money-job-boards", "slug": "money-job-boards", "name": "Job boards", "sort": 3 },
+            { "id": "top-money-freelancing", "slug": "money-freelancing", "name": "Freelancing", "sort": 4 }
+          ]
+        }
+      ]
+    }
+  ]
+}
