@@ -18,7 +18,7 @@
 | **D11** | Browsing is open; saving, calendar, portfolio and advertiser accounts need an account | `PROPOSED` |
 | **D12** | Calendar entries keep a link to the source item; a changed date shows a notice instead of silently editing | `PROPOSED` |
 | **D13** | Free/Paid, Upcoming and Local are toggles, not categories | `PROPOSED` |
-| **D14** | Level 3 topics (`docs/taxonomy.md` / `data/taxonomy.json`) and the technology stack (`docs/architecture/adr/0001-stack.md`) | `PROPOSED` |
+| **D14** | Level 3 topics (`docs/taxonomy.md` / `data/taxonomy.json`) and the technology stack ([ADR-0001](../architecture/adr/0001-stack.md) confirmed in Phase 0) | `LOCKED` |
 | **D15** | Discarded from the first chatbot draft: weather tiles, AI-vs-human badges, save-interruption anchoring | `LOCKED` |
 | **D16** | Watch Ads is voluntary and user-initiated: people go to the tab when they want to watch ads, instead of waiting for ads to pop up elsewhere. Ads are never pushed, popped up or inserted into any other tab. Viewers get no compensation of any kind, and the tab is not framed as supporting the site | `LOCKED` |
 | **D17** | Ads are meant to be informative or entertaining, so people choose to watch them of their own will | `LOCKED` |

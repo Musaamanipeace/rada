@@ -1,6 +1,6 @@
 # ADR-0001: Modular Monolith Technology Stack
 
-- **Status:** `PROPOSED` (To be confirmed or updated during Phase 0; linked to Decision `D1` and `D14`)
+- **Status:** `ACCEPTED` (Confirmed during Phase 0; linked to Decision `D1` and `D14`)
 - **Date:** 2026-11-11
 - **Deciders:** Owner
 

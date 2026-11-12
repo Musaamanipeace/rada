@@ -1,0 +1,408 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// -----------------------------------------------------------------------------
+// 1. Identity & Sessions
+// -----------------------------------------------------------------------------
+
+enum Role {
+  USER     @map("user")
+  REVIEWER @map("reviewer")
+  ADMIN    @map("admin")
+
+  @@map("user_role")
+}
+
+model User {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  emailVerified    DateTime? @map("email_verified")
+  image            String?
+  displayName      String?   @map("display_name")
+  role             Role      @default(USER)
+  region           String?
+  thumbnailsHidden Boolean   @default(false) @map("thumbnails_hidden")
+  createdAt        DateTime  @default(now()) @map("created_at")
+
+  accounts         Account[]
+  sessions         Session[]
+  calendarEvents   CalendarEvent[]
+  portfolio        Portfolio?
+  surveySessions   SurveySession[]
+  reviewedItems    Item[]          @relation("ItemReviewer")
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model AnonSession {
+  token     String   @id
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("anon_sessions")
+}
+
+// -----------------------------------------------------------------------------
+// 1.2 Taxonomy
+// -----------------------------------------------------------------------------
+
+model Category {
+  id            String        @id
+  slug          String        @unique
+  name          String
+  sort          Int
+  subcategories Subcategory[]
+  items         Item[]
+
+  @@map("categories")
+}
+
+model Subcategory {
+  id                String             @id
+  parentId          String             @map("parent_id")
+  slug              String             @unique
+  name              String
+  sort              Int
+
+  category          Category           @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  topics            Topic[]
+  items             Item[]
+  userInterests     UserInterest[]
+  surveySuggestions SurveySuggestion[]
+
+  @@unique([id, parentId])
+  @@map("subcategories")
+}
+
+model Topic {
+  id                String             @id
+  parentId          String             @map("parent_id")
+  slug              String             @unique
+  name              String
+  sort              Int
+
+  subcategory       Subcategory        @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  items             Item[]
+  surveySuggestions SurveySuggestion[]
+
+  @@unique([id, parentId])
+  @@map("topics")
+}
+
+// -----------------------------------------------------------------------------
+// 1.3 Content Items & Signals
+// -----------------------------------------------------------------------------
+
+enum ItemCost {
+  FREE    @map("free")
+  PAID    @map("paid")
+  UNKNOWN @map("unknown")
+
+  @@map("item_cost")
+}
+
+enum ItemStatus {
+  PENDING   @map("pending")
+  APPROVED  @map("approved")
+  REJECTED  @map("rejected")
+  EXPIRED   @map("expired")
+  DUPLICATE @map("duplicate")
+
+  @@map("item_status")
+}
+
+enum ItemOrigin {
+  SEED   @map("seed")
+  SURVEY @map("survey")
+  IMPORT @map("import")
+
+  @@map("item_origin")
+}
+
+model Item {
+  id              String      @id @default(cuid())
+  title           String
+  url             String      @unique
+  sourceName      String      @map("source_name")
+  description     String?     @db.VarChar(280)
+  thumbnailUrl    String?     @map("thumbnail_url")
+  categoryId      String      @map("category_id")
+  subcategoryId   String      @map("subcategory_id")
+  topicId         String      @map("topic_id")
+  cost            ItemCost    @default(UNKNOWN)
+  startsAt        DateTime?   @map("starts_at")
+  endsAt          DateTime?   @map("ends_at")
+  timezone        String?
+  region          String?
+  status          ItemStatus  @default(PENDING)
+  origin          ItemOrigin
+  popularityCount Int         @default(1) @map("popularity_count")
+  reviewedById    String?     @map("reviewed_by")
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @default(now()) @updatedAt @map("updated_at")
+
+  category        Category    @relation(fields: [categoryId], references: [id])
+  subcategory     Subcategory @relation(fields: [subcategoryId, categoryId], references: [id, parentId])
+  topic           Topic       @relation(fields: [topicId, subcategoryId], references: [id, parentId])
+  reviewedBy      User?       @relation("ItemReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  interactions      Interaction[]
+  savedItems        SavedItem[]
+  calendarEvents    CalendarEvent[]
+  surveySuggestions SurveySuggestion[]
+
+  @@map("items")
+}
+
+model UserInterest {
+  owner         String
+  subcategoryId String      @map("subcategory_id")
+  weight        Float       @default(1.0)
+
+  subcategory   Subcategory @relation(fields: [subcategoryId], references: [id], onDelete: Cascade)
+
+  @@id([owner, subcategoryId])
+  @@map("user_interests")
+}
+
+enum InteractionType {
+  OPEN         @map("open")
+  SAVE         @map("save")
+  UNSAVE       @map("unsave")
+  CALENDAR_ADD @map("calendar_add")
+  DISMISS      @map("dismiss")
+
+  @@map("interaction_type")
+}
+
+model Interaction {
+  id        String          @id @default(cuid())
+  owner     String
+  itemId    String          @map("item_id")
+  type      InteractionType
+  createdAt DateTime        @default(now()) @map("created_at")
+
+  item      Item            @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@index([owner, createdAt])
+  @@map("interactions")
+}
+
+model SavedItem {
+  id        String   @id @default(cuid())
+  owner     String
+  itemId    String   @map("item_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@unique([owner, itemId])
+  @@map("saved_items")
+}
+
+// -----------------------------------------------------------------------------
+// 1.4 Calendar
+// -----------------------------------------------------------------------------
+
+model CalendarEvent {
+  id              String    @id @default(cuid())
+  userId          String    @map("user_id")
+  title           String
+  startsAt        DateTime  @map("starts_at")
+  endsAt          DateTime? @map("ends_at")
+  timezone        String
+  notes           String?
+  sourceItemId    String?   @map("source_item_id")
+  reminderMinutes Int?      @map("reminder_minutes")
+  doneAt          DateTime? @map("done_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sourceItem      Item?     @relation(fields: [sourceItemId], references: [id], onDelete: SetNull)
+
+  @@map("calendar_events")
+}
+
+// -----------------------------------------------------------------------------
+// 1.5 Pre-Launch Survey
+// -----------------------------------------------------------------------------
+
+model SurveySession {
+  id            String             @id @default(cuid())
+  owner         String
+  consentAt     DateTime           @map("consent_at")
+  finishedAt    DateTime?          @map("finished_at")
+  claimedUserId String?            @map("claimed_user_id")
+
+  claimedUser   User?              @relation(fields: [claimedUserId], references: [id], onDelete: SetNull)
+  suggestions   SurveySuggestion[]
+
+  @@map("survey_sessions")
+}
+
+enum PickType {
+  USEFUL    @map("useful")
+  IMPACTFUL @map("impactful")
+  FAVORITE  @map("favorite")
+
+  @@map("survey_pick_type")
+}
+
+enum SuggestionStatus {
+  PENDING   @map("pending")
+  APPROVED  @map("approved")
+  REJECTED  @map("rejected")
+  DUPLICATE @map("duplicate")
+
+  @@map("survey_suggestion_status")
+}
+
+model SurveySuggestion {
+  id            String           @id @default(cuid())
+  sessionId     String           @map("session_id")
+  subcategoryId String           @map("subcategory_id")
+  topicId       String?          @map("topic_id")
+  titleOrUrl    String           @map("title_or_url")
+  pickType      PickType         @map("pick_type")
+  note          String?          @db.VarChar(140)
+  status        SuggestionStatus @default(PENDING)
+  itemId        String?          @map("item_id")
+
+  session       SurveySession    @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  subcategory   Subcategory      @relation(fields: [subcategoryId], references: [id])
+  topic         Topic?           @relation(fields: [topicId], references: [id])
+  item          Item?            @relation(fields: [itemId], references: [id], onDelete: SetNull)
+
+  @@map("survey_suggestions")
+}
+
+// -----------------------------------------------------------------------------
+// 1.6 Portfolios
+// -----------------------------------------------------------------------------
+
+enum PortfolioVisibility {
+  DRAFT    @map("draft")
+  PUBLIC   @map("public")
+  UNLISTED @map("unlisted")
+
+  @@map("portfolio_visibility")
+}
+
+model Portfolio {
+  id         String              @id @default(cuid())
+  userId     String              @unique @map("user_id")
+  username   String              @unique
+  headline   String
+  intro      String?
+  avatar     String?
+  template   String
+  theme      String
+  visibility PortfolioVisibility @default(DRAFT)
+  createdAt  DateTime            @default(now()) @map("created_at")
+  updatedAt  DateTime            @default(now()) @updatedAt @map("updated_at")
+
+  user       User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sections   PortfolioSection[]
+  projects   PortfolioProject[]
+  links      PortfolioLink[]
+
+  @@map("portfolios")
+}
+
+model PortfolioSection {
+  id          String    @id @default(cuid())
+  portfolioId String    @map("portfolio_id")
+  title       String
+  sortOrder   Int       @map("sort_order")
+  hidden      Boolean   @default(false)
+
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+
+  @@map("portfolio_sections")
+}
+
+model PortfolioProject {
+  id          String    @id @default(cuid())
+  portfolioId String    @map("portfolio_id")
+  title       String
+  description String?
+  url         String?
+  imageUrl    String?   @map("image_url")
+  sortOrder   Int       @map("sort_order")
+  hidden      Boolean   @default(false)
+
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+
+  @@map("portfolio_projects")
+}
+
+model PortfolioLink {
+  id          String    @id @default(cuid())
+  portfolioId String    @map("portfolio_id")
+  label       String
+  url         String
+  sortOrder   Int       @map("sort_order")
+  hidden      Boolean   @default(false)
+
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+
+  @@map("portfolio_links")
+}
+
+// -----------------------------------------------------------------------------
+// 1.7 Audit Log
+// -----------------------------------------------------------------------------
+
+model AuditLog {
+  id     String   @id @default(cuid())
+  actor  String
+  action String
+  target String
+  at     DateTime @default(now())
+
+  @@map("audit_log")
+}
