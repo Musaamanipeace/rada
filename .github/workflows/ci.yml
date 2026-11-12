@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, "phase-*/**"]
   pull_request:
     branches: [main]
 
@@ -10,11 +10,60 @@ jobs:
   verify:
     name: Lint, Typecheck, Test, Build & Docs Check
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgresPassword
+          POSTGRES_DB: rada
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      NODE_ENV: test
+      DATABASE_URL: "postgresql://postgres:postgresPassword@localhost:5432/rada?schema=public"
+      AUTH_SECRET: "test_ci_auth_secret_minimum_32_characters_key"
+      NEXT_TELEMETRY_DISABLED: 1
+      FEATURE_WATCH_ADS_ENABLED: "false"
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Verify required documentation & governance files exist
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 12.18.0
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify documentation and links
         run: |
           test -f AGENTS.md
           test -f CONTRIBUTING.md
@@ -25,12 +74,28 @@ jobs:
           test -f docs/product/open-questions.md
           test -f docs/privacy.md
           test -f docs/ad-policy.md
+          pnpm check:links
 
-      # Phase 0 will enable the full Node/pnpm/PostgreSQL pipeline below:
-      # - pnpm install --frozen-lockfile
-      # - pnpm lint
-      # - pnpm typecheck
-      # - pnpm test:taxonomy
-      # - pnpm test
-      # - pnpm build
-      # - pnpm test:e2e
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Run Prisma migrations
+        run: pnpm db:migrate:deploy
+
+      - name: Seed taxonomy
+        run: pnpm db:seed
+
+      - name: Automated taxonomy validation
+        run: pnpm test:taxonomy
+
+      - name: Run Unit & Integration Tests
+        run: pnpm test
+
+      - name: Build Next.js app
+        run: pnpm build
+
+      - name: Check bundle budget
+        run: pnpm check:budget

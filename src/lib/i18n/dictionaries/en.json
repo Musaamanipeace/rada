@@ -1,0 +1,59 @@
+{
+  "common": {
+    "appName": "Rada",
+    "tagline": "Discover what to do online and offline",
+    "skipToContent": "Skip to main content",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close"
+  },
+  "nav": {
+    "feed": "Feed",
+    "catalogues": "My Catalogues",
+    "calendar": "Calendar",
+    "portfolio": "Portfolio",
+    "watchAds": "Watch Ads",
+    "survey": "Survey",
+    "signIn": "Sign in",
+    "signOut": "Sign out"
+  },
+  "theme": {
+    "toggleTheme": "Toggle color theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "feed": {
+    "title": "Discovery Feed",
+    "varietyMode": "Variety Mode",
+    "hideThumbnails": "Hide thumbnails",
+    "emptyFeed": "No items match your active filters.",
+    "saveItem": "Save to Catalogues",
+    "unsaveItem": "Remove from Catalogues",
+    "addToCalendar": "Add to Calendar",
+    "dismissItem": "Don't show again"
+  },
+  "catalogues": {
+    "title": "My Catalogues",
+    "empty": "You have no saved items in this category yet."
+  },
+  "calendar": {
+    "title": "Calendar",
+    "empty": "No events scheduled."
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "preview": "Public Preview"
+  },
+  "auth": {
+    "signInTitle": "Sign in to Rada",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "you@example.com",
+    "sendMagicLink": "Send Magic Link",
+    "checkEmail": "Check your email for the sign-in link.",
+    "guestNotice": "You are browsing as a guest. Your saves will be preserved when you sign in."
+  }
+}
