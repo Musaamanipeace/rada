@@ -8,6 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- **Phase 1 (Landing Page, Survey and Review Queue):**
+  - Public Landing Page (`/`) with Hero CTA, 3-step &ldquo;How it works&rdquo;, 10-category interactive preview, portfolio showcase, and &ldquo;Advertise with us&rdquo; callout.
+  - Plain-language Privacy Policy page (`/privacy`) reflecting zero third-party tracking, first-party storage only, and user data rights.
+  - Pre-launch survey interactive flow (`/survey`) with explicit consent, category selection, subcategory suggestion forms, autosave, anonymous/account choice (`O8`), spam trap, and rate limiting.
+  - Survey endpoints (`POST /api/survey/sessions`, `PUT /api/survey/sessions/:id/suggestions`, `POST /api/survey/sessions/:id/finish`, `POST /api/survey/sessions/:id/claim`).
+  - Content reviewer moderation queue (`/review`) and endpoints (`GET /api/admin/review-queue`, `PATCH /api/admin/review-queue/:id`) to approve, reject, merge duplicates, and enforce valid Level-3 topics.
+  - Subcategory coverage dashboard tracking progress across all 34 subcategories toward launch threshold of &ge; 10 items per subcategory.
+  - CSV Seed Importer (`scripts/import-seed-csv.ts`) implementing the `import-content` skill, strictly rejecting unmapped/partially categorised rows, deduplicating URLs, and auto-expiring past events.
+  - Complete Playwright E2E and Axe WCAG 2.2 AA accessibility audit test suite covering landing, survey, and privacy flows.
 - **Phase 0 (Foundations):**
   - Modular monolith architecture setup with Next.js 14 (App Router), TypeScript (strict mode), and Tailwind CSS.
   - PostgreSQL schema and Prisma migrations with composite taxonomy foreign key constraints (`category_id`, `subcategory_id`, `topic_id`).

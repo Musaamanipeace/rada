@@ -5,8 +5,8 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
-  reporter: "html",
+  workers: process.env.CI ? 1 : 2,
+  reporter: [["list"], ["html", { open: "never" }]],
   use: {
     baseURL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
     trace: "on-first-retry",
@@ -25,8 +25,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "pnpm start",
+    command: "./node_modules/.bin/next start",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
+    timeout: 30000,
   },
 });
