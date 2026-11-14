@@ -22,7 +22,8 @@ interface CoverageItem {
 
 interface PendingSuggestion {
   id: string;
-  titleOrUrl: string;
+  title: string;
+  url: string;
   pickType: string;
   note?: string | null;
   topicId?: string | null;
@@ -241,17 +242,18 @@ export function ReviewerQueue() {
                   </div>
 
                   <div className="font-bold text-base text-foreground flex items-center gap-2">
-                    <span>{sugg.titleOrUrl}</span>
-                    {sugg.titleOrUrl.startsWith("http") && (
-                      <a
-                        href={sugg.titleOrUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary hover:opacity-80"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                      </a>
-                    )}
+                    <a
+                      href={sugg.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:underline text-primary inline-flex items-center gap-1.5"
+                    >
+                      <span>{sugg.title}</span>
+                      <ExternalLink className="h-4 w-4 shrink-0 text-muted-foreground" />
+                    </a>
+                  </div>
+                  <div className="text-xs text-muted-foreground break-all">
+                    {sugg.url}
                   </div>
 
                   {sugg.note && (

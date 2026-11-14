@@ -110,15 +110,11 @@ export async function PATCH(
         const categoryId = suggestion.subcategory.parentId;
 
         // Create approved item and link suggestion
-        const itemUrl = suggestion.titleOrUrl.startsWith("http")
-          ? suggestion.titleOrUrl
-          : `https://rada.example/item/${id}`;
-
         const createdItem = await db.$transaction(async (tx) => {
           const item = await tx.item.create({
             data: {
-              title: suggestion.titleOrUrl,
-              url: itemUrl,
+              title: suggestion.title,
+              url: suggestion.url,
               sourceName: data.sourceName,
               description: suggestion.note || undefined,
               categoryId,

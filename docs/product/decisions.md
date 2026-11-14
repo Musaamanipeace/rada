@@ -30,6 +30,7 @@
 | **D23** | Watch Ads is behind a switch that is off at launch. It is turned on when the first advertiser is approved | `LOCKED` |
 | **D24** | Payments start manual: the owner agrees payment with each advertiser and adds credit by hand in an admin screen. A payment provider is added later only if self-serve top-ups become worthwhile | `LOCKED` |
 | **D25** | The site is called Rada | `LOCKED` |
+| **D26** | Pre-launch survey suggestions require both Title and valid URL; rendered in summary and reviewer queue as clickable titles with external links | `LOCKED` |
 
 ---
 

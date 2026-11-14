@@ -306,7 +306,8 @@ model SurveySuggestion {
   sessionId     String           @map("session_id")
   subcategoryId String           @map("subcategory_id")
   topicId       String?          @map("topic_id")
-  titleOrUrl    String           @map("title_or_url")
+  title         String
+  url           String
   pickType      PickType         @map("pick_type")
   note          String?          @db.VarChar(140)
   status        SuggestionStatus @default(PENDING)

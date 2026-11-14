@@ -160,7 +160,8 @@
 | `session_id` | `UUID` / `CUID` | `NOT NULL REFERENCES survey_sessions(id)` | Parent survey session |
 | `subcategory_id` | `TEXT` / `UUID` | `NOT NULL REFERENCES subcategories(id)` | Screen subcategory (never uncategorised) |
 | `topic_id` | `TEXT` / `UUID` | `NULLABLE REFERENCES topics(id)` | Optional level-3 topic |
-| `title_or_url` | `TEXT` | `NOT NULL` | Suggested title or URL |
+| `title` | `TEXT` | `NOT NULL` | Recommendation title (e.g. resource name) |
+| `url` | `TEXT` | `NOT NULL` | Valid http/https web link |
 | `pick_type` | `ENUM` | `NOT NULL` | `'useful'` \| `'impactful'` \| `'favorite'` |
 | `note` | `VARCHAR(140)` | `NULLABLE` | Optional note (max 140 chars) |
 | `status` | `ENUM` | `NOT NULL DEFAULT 'pending'` | `'pending'` \| `'approved'` \| `'rejected'` \| `'duplicate'` |

@@ -36,20 +36,23 @@ describe("Survey & Moderation Reviewer Flow", () => {
         sessionId: session.id,
         subcategoryId: sub!.id,
         topicId: topic.id,
-        titleOrUrl: "https://example.com/great-recommendation",
+        title: "Great Recommendation",
+        url: "https://example.com/great-recommendation",
         pickType: "USEFUL",
         note: "A wonderful resource",
         status: "PENDING",
       },
     });
     expect(suggestion.status).toBe("PENDING");
+    expect(suggestion.title).toBe("Great Recommendation");
+    expect(suggestion.url).toBe("https://example.com/great-recommendation");
 
     // 4. Moderate: Reviewer approves suggestion into Item
     const approvedItem = await db.$transaction(async (tx) => {
       const item = await tx.item.create({
         data: {
-          title: suggestion.titleOrUrl,
-          url: suggestion.titleOrUrl,
+          title: suggestion.title,
+          url: suggestion.url,
           sourceName: "Community Suggestion",
           description: suggestion.note,
           categoryId: sub!.parentId,

@@ -1,5 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
 
+const PORT = process.env.PORT || "3000";
+const baseURL = process.env.PLAYWRIGHT_TEST_BASE_URL || `http://localhost:${PORT}`;
+
 export default defineConfig({
   testDir: "./tests/e2e",
   fullyParallel: true,
@@ -8,7 +11,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : 2,
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
-    baseURL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+    baseURL,
     trace: "on-first-retry",
   },
   projects: [
@@ -25,8 +28,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "./node_modules/.bin/next start",
-    url: "http://localhost:3000",
+    command: `./node_modules/.bin/next start -p ${PORT}`,
+    url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 30000,
   },

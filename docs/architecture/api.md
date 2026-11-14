@@ -113,14 +113,15 @@ Starts a survey session after explicit user consent.
 - **Response (`201 Created`):** `{ sessionId: string }`
 
 #### `PUT /api/survey/sessions/:id/suggestions`
-Autosaves up to 3 suggestions for a specific subcategory screen.
+Autosaves up to 5 suggestions for a specific subcategory screen.
 - **Body:**
   ```json
   {
     "subcategoryId": "string",
     "suggestions": [
       {
-        "titleOrUrl": "string",
+        "title": "string",
+        "url": "string (valid http/https link)",
         "pickType": "useful | impactful | favorite",
         "topicId": "string (optional)",
         "note": "string (max 140 chars, optional)"

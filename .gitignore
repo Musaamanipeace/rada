@@ -22,7 +22,10 @@ test-results/
 .env.*
 !.env.example
 
-# Debug & Logs
+# Local Database
+.postgres/
+logfile
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

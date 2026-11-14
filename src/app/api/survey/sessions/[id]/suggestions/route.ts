@@ -9,8 +9,29 @@ import {
   checkRateLimit,
 } from "@/lib/api-response";
 
+const normalizeUrl = (raw: string) => {
+  let u = raw.trim();
+  if (!/^https?:\/\//i.test(u)) {
+    u = `https://${u}`;
+  }
+  return u;
+};
+
 const suggestionItemSchema = z.object({
-  titleOrUrl: z.string().trim().min(1, "Title or URL is required"),
+  title: z.string().trim().min(1, "Title is required"),
+  url: z
+    .string()
+    .trim()
+    .min(1, "URL is required")
+    .transform(normalizeUrl)
+    .refine((val) => {
+      try {
+        const parsed = new URL(val);
+        return (parsed.protocol === "http:" || parsed.protocol === "https:") && Boolean(parsed.hostname);
+      } catch {
+        return false;
+      }
+    }, "A valid web link (http or https) is required"),
   pickType: z.enum(["useful", "impactful", "favorite"], {
     errorMap: () => ({ message: "Pick type must be 'useful', 'impactful', or 'favorite'" }),
   }),
@@ -20,7 +41,7 @@ const suggestionItemSchema = z.object({
 
 const putSuggestionsSchema = z.object({
   subcategoryId: z.string().min(1, "Subcategory ID is required"),
-  suggestions: z.array(suggestionItemSchema).max(3, "At most 3 suggestions per subcategory"),
+  suggestions: z.array(suggestionItemSchema).max(5, "At most 5 suggestions per subcategory"),
 });
 
 export async function PUT(
@@ -102,7 +123,8 @@ export async function PUT(
             sessionId,
             subcategoryId: data.subcategoryId,
             topicId: sugg.topicId || null,
-            titleOrUrl: sugg.titleOrUrl,
+            title: sugg.title,
+            url: sugg.url,
             pickType: sugg.pickType === "useful" ? "USEFUL" : sugg.pickType === "impactful" ? "IMPACTFUL" : "FAVORITE",
             note: sugg.note || null,
             status: "PENDING",

@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- **Survey Title & Link Enhancement (Decision D26):**
+  - Updated `survey_suggestions` schema to require both `title` and `url` via append-only migration `20261114061500_split_survey_title_and_url`.
+  - Refined `/survey` UI to provide dedicated Title and Link/URL input fields with automatic protocol normalization (`http://` / `https://`).
+  - Added clickable title preview list with external links in the survey summary screen and moderation reviewer queue (`/review`).
 - **Phase 1 (Landing Page, Survey and Review Queue):**
   - Public Landing Page (`/`) with Hero CTA, 3-step &ldquo;How it works&rdquo;, 10-category interactive preview, portfolio showcase, and &ldquo;Advertise with us&rdquo; callout.
   - Plain-language Privacy Policy page (`/privacy`) reflecting zero third-party tracking, first-party storage only, and user data rights.
