@@ -6,6 +6,27 @@ import taxonomyData from "../data/taxonomy.json";
 
 const prisma = new PrismaClient();
 
+const emptyStringToNull = z
+  .string()
+  .trim()
+  .optional()
+  .nullable()
+  .transform((val) => (val === "" || val === undefined ? null : val));
+
+const optionalDatetime = z
+  .string()
+  .trim()
+  .optional()
+  .nullable()
+  .transform((val) => (val === "" || val === undefined ? null : val))
+  .refine(
+    (val) => {
+      if (val === null) return true;
+      return !isNaN(Date.parse(val));
+    },
+    { message: "Invalid datetime" }
+  );
+
 // CSV row schema
 export const csvRowSchema = z.object({
   title: z.string().trim().min(1, "Title is required"),
@@ -14,12 +35,12 @@ export const csvRowSchema = z.object({
   subcategory: z.string().trim().min(1, "Subcategory slug is required"),
   topic: z.string().trim().min(1, "Topic slug is required"),
   source_name: z.string().trim().optional().default("Curated"),
-  description: z.string().trim().max(280, "Description max 280 chars").optional().nullable(),
+  description: z.string().trim().max(280, "Description max 280 chars").optional().nullable().transform((val) => (val === "" || val === undefined ? null : val)),
   cost: z.enum(["free", "paid", "unknown"]).optional().default("unknown"),
-  starts_at: z.string().datetime().optional().nullable(),
-  ends_at: z.string().datetime().optional().nullable(),
-  timezone: z.string().optional().nullable(),
-  region: z.string().optional().nullable(),
+  starts_at: optionalDatetime,
+  ends_at: optionalDatetime,
+  timezone: emptyStringToNull,
+  region: emptyStringToNull,
 });
 
 export type CsvRowInput = z.infer<typeof csvRowSchema>;
@@ -75,15 +96,40 @@ export function buildTaxonomyLookup(): TaxonomyLookup {
   return { categoriesBySlug, subcategoriesBySlug, topicsBySlug };
 }
 
+export function parseCsvLine(line: string): string[] {
+  const result: string[] = [];
+  let current = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    if (char === '"') {
+      if (inQuotes && line[i + 1] === '"') {
+        current += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (char === "," && !inQuotes) {
+      result.push(current.trim());
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+  result.push(current.trim());
+  return result;
+}
+
 export function parseCsv(content: string): Record<string, string>[] {
   const lines = content.split(/\r?\n/).filter((l) => l.trim().length > 0);
   if (lines.length < 2) return [];
 
-  const headers = lines[0].split(",").map((h) => h.trim());
+  const headers = parseCsvLine(lines[0]);
   const rows: Record<string, string>[] = [];
 
   for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(",").map((v) => v.trim());
+    const values = parseCsvLine(lines[i]);
     const row: Record<string, string> = {};
     for (let j = 0; j < headers.length; j++) {
       row[headers[j]] = values[j] || "";
@@ -217,7 +263,7 @@ export async function importSeedCsv(
 async function main() {
   const args = process.argv.slice(2);
   const filePath = args[0] || resolve(process.cwd(), "data/seed/sample-seed.csv");
-  const autoApprove = args.includes("--auto-approve");
+  const autoApprove = args.includes("--auto-approve") || args.includes("--approve");
 
   if (!existsSync(filePath)) {
     console.error(`Seed file not found: ${filePath}`);

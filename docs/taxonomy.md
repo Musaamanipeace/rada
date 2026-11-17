@@ -7,7 +7,7 @@
 1. **Three-Level Hierarchy:**
    - **Level 1:** Category (10 categories)
    - **Level 2:** Subcategory (34 subcategories)
-   - **Level 3:** Topic (139 exact topics across the 34 subcategories)
+   - **Level 3:** Topic (174 exact topics across the 34 subcategories, including `Sports` in News and articles and `General / All topics` in each subcategory for multi-topic platforms and broad resources per `D30` and `D31`)
 2. **Mandatory Complete Classification (`D2`, Rule 5):** Every item in Rada must have one valid `category_id`, `subcategory_id`, and `topic_id` that belong to the same parent-child branch. Any item or import row that fails this validation is **rejected and never shown**.
 3. **Exact Topic Values:** Topic values are exact strings as listed below. *Genre* may become a separate facet later; it is **not** a topic.
 4. **Non-Category Controls (`D3`, `D13`):**
@@ -20,7 +20,7 @@
 ## 2. Canonical Taxonomy Tree (10 Categories · 34 Subcategories)
 
 ### 1. Read (`read`)
-- **News articles** (`news-articles`): World, Local, Business, Tech and science, Culture, Opinion
+- **News and articles** (`news-articles`): World, Local, Business, Tech and science, Culture, Opinion, Sports, General / All topics
 - **Books** (`books`): Fiction, Non-fiction, Biography, Self-development, Children and young adult, Comics and graphic novels
 - **Blogs and newsletters** (`blogs-and-newsletters`): Tech, Finance, Creative, Lifestyle, Industry insights
 - **Guides and other written resources** (`guides-and-other-written-resources`): How-to guides, Research and reports, Reference, Templates and checklists

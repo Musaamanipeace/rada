@@ -163,7 +163,7 @@
 | `title` | `TEXT` | `NOT NULL` | Recommendation title (e.g. resource name) |
 | `url` | `TEXT` | `NOT NULL` | Valid http/https web link |
 | `pick_type` | `ENUM` | `NOT NULL` | `'useful'` \| `'impactful'` \| `'favorite'` |
-| `note` | `VARCHAR(140)` | `NULLABLE` | Optional note (max 140 chars) |
+| `note` | `VARCHAR(250)` | `NULLABLE` | Optional note (max 250 chars) |
 | `status` | `ENUM` | `NOT NULL DEFAULT 'pending'` | `'pending'` \| `'approved'` \| `'rejected'` \| `'duplicate'` |
 | `item_id` | `UUID` / `CUID` | `NULLABLE REFERENCES items(id)` | Populated when approved or merged into an item |
 

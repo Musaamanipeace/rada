@@ -124,7 +124,7 @@ Autosaves up to 5 suggestions for a specific subcategory screen.
         "url": "string (valid http/https link)",
         "pickType": "useful | impactful | favorite",
         "topicId": "string (optional)",
-        "note": "string (max 140 chars, optional)"
+        "note": "string (max 250 chars, optional)"
       }
     ]
   }

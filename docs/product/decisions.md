@@ -31,6 +31,12 @@
 | **D24** | Payments start manual: the owner agrees payment with each advertiser and adds credit by hand in an admin screen. A payment provider is added later only if self-serve top-ups become worthwhile | `LOCKED` |
 | **D25** | The site is called Rada | `LOCKED` |
 | **D26** | Pre-launch survey suggestions require both Title and valid URL; rendered in summary and reviewer queue as clickable titles with external links | `LOCKED` |
+| **D27** | Users can submit categorised "Request for Suggestions" posts that appear in the discovery feed; community replies are moderated in `/review` before publishing (`docs/phases/phase-8.md`) | `PROPOSED` |
+| **D28** | Cost classification keeps the two-state `Free/Paid` filter (`D13`): `free` includes both completely free and freemium/partially-free items with a usable free tier; `paid` covers paywalled or paid-only items | `LOCKED` |
+| **D29** | Rename `sub-news-articles` display name from `News articles` to `News and articles` (keeping slug `news-articles` stable) | `LOCKED` |
+| **D30** | Add a `General / All topics` (`<subcategory-slug>-general`) topic to each of the 34 subcategories (173 topics total) for multi-topic platforms and broad resources, preserving `D2` | `LOCKED` |
+| **D31** | Add `Sports` (`news-articles-sports`) topic under `News and articles` (`sub-news-articles`) for dedicated sports reporting sites (174 topics total) | `LOCKED` |
+| **D32** | Canonical primary link per feed card in Phase 2 MVP (e.g., trailer for movies/series, web app for tools, canonical course/article URL); secondary link pills (e.g., streaming platform, IMDb, GitHub repo) documented as an item extension (`O12`, `O18`) | `LOCKED` |
 
 ---
 

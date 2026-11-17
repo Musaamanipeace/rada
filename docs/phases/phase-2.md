@@ -20,12 +20,14 @@
   - [ ] Enforce exclusions: never repeat within a session, never return `dismiss`ed items, never return already-saved items (`saved_items`), and automatically drop past-dated items.
 - [ ] **Feed API & Interactions (`GET /api/feed`, `POST /api/items/:id/dismiss`, `POST /api/interactions`):**
   - [ ] Cursor pagination (20 items per batch).
-  - [ ] Multi-select category filters, subcategory/topic filters, **Variety** mode (`D3`), and toggles for **Free/Paid**, **Upcoming**, and **Local** (`D13`).
+  - [ ] Multi-select category filters, subcategory/topic filters (including `General / All topics` items matching within their subcategory per `D30`), **Variety** mode (`D3`), and toggles for **Free/Paid**, **Upcoming**, and **Local** (`D13`).
   - [ ] Exhaustion recycling: when fresh items run out, shuffle and recycle unsaved, non-dismissed items so the user never hits a dead end.
   - [ ] Test enforcing `/api/feed` never returns ads (`Rule 17`).
 - [ ] **Virtualized Feed UI & States (`8.1`):**
   - [ ] Header with scrollable category chips, Variety chip, Free/Paid, Upcoming, and Local toggles, and Hide thumbnails toggle.
-  - [ ] Item card with thumbnail (hideable), title, source, category tag, cost badge, date (if dated), and actions: Save, Open (new tab, `rel="noopener noreferrer"`), Not interested, and Add to calendar (on dated items only).
+  - [ ] Unified discovery stream: seamlessly blends articles, podcasts, courses, videos, books, games, and local activities into one distraction-free infinite virtual list without requiring siloed tabs.
+  - [ ] Item card with thumbnail (hideable), title, source, category tag, cost badge (`Free` combining freemium/free tier per `D28`, or `Paid`), date (if dated), and actions: Save, Open (new tab, `rel="noopener noreferrer"`), Not interested, and Add to calendar (on dated items only).
+  - [ ] Entertainment & movie handling: movie/series cards display release year, director/creator metadata, and link to canonical reference/streaming destination; future-dated releases (`starts_at > now`) trigger the **Upcoming** toggle and offer **Add to calendar** (`D5`, `O18`).
   - [ ] Endless scroll using `@tanstack/react-virtual`, skeleton loading cards, and Clear filters button on empty filter matches.
 - [ ] **Hide Thumbnails Toggle (`8.2`, `D6`):**
   - [ ] Toggle in feed header and settings (`thumbnails_hidden` synced to account for logged-in users, persisted locally for guests; default off).
