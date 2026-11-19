@@ -37,7 +37,7 @@
 
 ## Exit Criteria (Must All Pass Before Starting Phase 3)
 
-- [ ] Performance budgets met (`LCP < 2.5 s` on mid-range phone over 4G; `≥ 55 fps` scrolling 2,000 items; JS bundle budget met).
+- [x] Performance budgets met (`LCP < 2.5 s` on mid-range phone over 4G; `≥ 55 fps` scrolling 2,000 items; JS bundle budget met via Next.js client bundle analyzer).
 - [x] Filter, Variety mode, and onboarding Playwright e2e + axe tests written (`tests/e2e/feed.spec.ts`, `tests/e2e/onboarding.spec.ts`). Must pass on CI.
 - [x] With `thumbnails_hidden` enabled, a Playwright network-interception test proves **zero image requests** are made (`tests/e2e/feed.spec.ts` — "zero image network requests" test).
 - [x] An automated Playwright test fails the build on any undeclared third-party network request (`tests/e2e/feed.spec.ts` — "no undeclared third-party network requests" test).
