@@ -8,6 +8,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- **Phase 2 — Discovery Feed and Onboarding:**
+  - **Ranking Engine v1 (`src/lib/ranking/engine.ts`, `src/lib/ranking/weights.ts`):** Canonical weights (topic `1.0`, subcategory `0.7`, category `0.4`); 30-day decaying interaction signals (`save`/`calendar_add` `+3`, `open` `+1`, `dismiss` `-3`); logarithmic popularity boost; upcoming freshness boost for items within 14 days; 15% exploration quota outside stated interests; exhaustion recycling; strict exclusions (dismissed, saved, past-dated, session-seen, ads).
+  - **Feed API (`GET /api/feed`):** Cursor pagination (20 items/batch); multi-select category, subcategory, topic, Variety mode, Free/Paid, Upcoming, and Local filters; ad isolation enforced at engine level (Rule 17); rate-limited (60 req/min).
+  - **Interaction APIs:** `POST /api/items/:id/save` and `DELETE /api/items/:id/save` (save/unsave with interaction signal); `POST /api/items/:id/dismiss` (idempotent permanent exclusion); `POST /api/interactions` (open, calendar_add signals).
+  - **User Preferences APIs:** `GET /api/me/interests` and `PUT /api/me/interests` (atomic replace, minimum 3 subcategories); `GET /api/me/settings` and `PATCH /api/me/settings` (`thumbnails_hidden`, `region`; guests use localStorage).
+  - **Onboarding Modal (`src/features/onboarding/OnboardingModal.tsx`):** Accordion by category, subcategory chip multi-select (minimum 3), live count, "Skip — use Variety mode" action, persists via `PUT /api/me/interests`.
+  - **Discovery Feed UI (`src/features/feed/`):** Virtualized infinite scroll via `@tanstack/react-virtual`; `FeedHeader` with scrollable category chips, Variety, Free/Paid, Upcoming, Local, and Hide Thumbnails toggles; `FeedItemCard` with thumbnail, cost badge, date badge, Open (new tab, `rel="noopener noreferrer"`), Save, Not Interested, Add to Calendar; recycling banner; skeleton loading; empty state with Clear Filters.
+  - **Feed page (`src/app/feed/page.tsx`):** Server component passing `hasInterests` and `isAuthenticated` props to `DiscoveryFeed`.
+  - **Hide Thumbnails (`D6`):** When enabled, item cards show category icon instead of thumbnail, making zero external image requests (enforced by Playwright network-interception test).
+  - **E2E & Accessibility Tests:** `tests/e2e/feed.spec.ts` (feed renders, filters, save, dismiss, thumbnail zero-image, Rule 17 ad isolation, Rule 6 third-party boundary, WCAG 2.2 AA); `tests/e2e/onboarding.spec.ts` (minimum 3 interests enforcement, skip defaults Variety, PUT interests on completion, WCAG 2.2 AA).
+  - **Unit Tests (`tests/unit/ranking-engine.test.ts`):** Dismissed exclusion, saved exclusion, cost filter, category/variety filter, exhaustion recycling, Rule 17 ad invariant.
+  - **API documentation updated (`docs/architecture/api.md`):** Added `GET/PUT /api/me/interests`, `GET/PATCH /api/me/settings` contracts.
+  - **Phase 2 checklist updated (`docs/phases/phase-2.md`):** All implementation tasks ticked.
+
 - **Offline Survey Workbook & Product/Moderation Documentation:**
   - Added [`docs/offline-survey.md`](docs/offline-survey.md) and [`data/seed/offline-survey.csv`](data/seed/offline-survey.csv) as a standalone offline survey workbook for owner-curated library seeding across all 10 categories, 34 subcategories, and 139 topics.
   - Updated [`docs/content-moderation.md`](docs/content-moderation.md), [`docs/architecture/overview.md`](docs/architecture/overview.md), and [`docs/product/vision.md`](docs/product/vision.md) to document organizing and prioritizing content by `popularity_count` (the number of people who suggested it).
