@@ -8,6 +8,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- **Phase 3 — My Catalogues, Calendar, and User Data Rights:**
+  - **My Catalogues (`src/features/catalogues/CataloguesView.tsx`, `src/app/catalogues/page.tsx`):**
+    - Ten expandable category shelves grouping saved items into subcategories with item counts; empty shelves are visually dimmed (`8.3`, `D4`).
+    - Un-saving items via `DELETE /api/items/:id/save` with immediate UI updates.
+    - Full support for `thumbnails_hidden` preference (`8.2`, `D6`), displaying category icons in place of thumbnails to make zero external image requests.
+    - "Add to calendar" action retained on dated items (`D5`).
+  - **Catalogues API (`GET /api/catalogues`):**
+    - Returns saved items structured under all 10 taxonomy categories and 34 subcategories.
+    - Strict ad isolation enforced at route and response levels (Rule 17).
+  - **Calendar UI (`src/features/calendar/CalendarView.tsx`, `src/app/calendar/page.tsx`):**
+    - Desktop Month View with responsive date grid, day-cell badges, and month navigation controls (`8.4`, `D5`).
+    - Mobile Agenda View listing upcoming events in chronological order with date headers.
+    - Create, edit, and delete event modal supporting manual entries and linked items (`source_item_id`).
+    - Source date-change notice banner (`D12`): alerts the user when an organizer modifies dates on a linked item, preserving the user's calendar event without silent overwrite.
+    - Activity history via "Mark done" toggle (`done_at`) and reminder minutes (`reminder_minutes`).
+    - RFC 5545 compliant `.ics` export button for syncing with external calendars.
+  - **Calendar APIs (`/api/calendar/events`, `/api/calendar.ics`):**
+    - `GET | POST /api/calendar/events` and `PATCH | DELETE /api/calendar/events/:id` with user authentication and ownership enforcement.
+    - `GET /api/calendar.ics`: Generates standards-compliant iCalendar feeds (`text/calendar`) with CRLF line endings, UTC timestamps, DTSTART, DTEND, SUMMARY, and DESCRIPTION.
+  - **User Data Export & Deletion (`src/app/api/me/data/route.ts`):**
+    - `GET /api/me/data`: Machine-readable JSON export of user profile, stated interests, saved items, interactions, calendar events, survey sessions, and portfolio (`Section 7`, `Section 9`).
+    - `DELETE /api/me/data`: Permanent cascade deletion of user records, interactions, saves, calendar events, interests, and portfolio, recording a non-reversible `USER_DATA_DELETED` audit log entry.
+  - **Offline Read-Only Cache & Serwist Worker (`src/app/sw.ts`):**
+    - Configured `NetworkFirst` service worker caching for `/catalogues`, `/calendar`, `/api/catalogues`, and `/api/calendar/events`, enabling full offline viewing.
+  - **Guest-to-Account Merge (`src/lib/session.ts`):**
+    - Atomically merges guest `saved_items`, `interactions`, and `survey_sessions` into user accounts on signup.
+  - **Test Suites:**
+    - Unit tests: `tests/unit/catalogues.test.ts`, `tests/unit/calendar.test.ts`, `tests/unit/user-data-rights.test.ts`.
+    - E2E and accessibility tests: `tests/e2e/catalogues.spec.ts` (shelves, un-save, zero image requests with thumbnails hidden, Rule 17 ad check, Axe WCAG 2.2 AA), `tests/e2e/calendar.spec.ts` (month/agenda views, CRUD, D12 notice, .ics export, Axe WCAG 2.2 AA), `tests/e2e/offline.spec.ts` (service worker offline read-only mode).
+
 - **Phase 2 — Discovery Feed and Onboarding:**
   - **Ranking Engine v1 (`src/lib/ranking/engine.ts`, `src/lib/ranking/weights.ts`):** Canonical weights (topic `1.0`, subcategory `0.7`, category `0.4`); 30-day decaying interaction signals (`save`/`calendar_add` `+3`, `open` `+1`, `dismiss` `-3`); logarithmic popularity boost; upcoming freshness boost for items within 14 days; 15% exploration quota outside stated interests; exhaustion recycling; strict exclusions (dismissed, saved, past-dated, session-seen, ads).
   - **Feed API (`GET /api/feed`):** Cursor pagination (20 items/batch); multi-select category, subcategory, topic, Variety mode, Free/Paid, Upcoming, and Local filters; ad isolation enforced at engine level (Rule 17); rate-limited (60 req/min).

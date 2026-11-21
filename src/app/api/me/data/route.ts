@@ -43,8 +43,8 @@ export async function GET(request: NextRequest) {
         select: { id: true, slug: true, name: true },
       },
     },
+    orderBy: { subcategory: { name: "asc" } },
   });
-
   // 2. Saved Items
   const savedItems = await db.savedItem.findMany({
     where: { owner: userId },
@@ -123,7 +123,6 @@ export async function GET(request: NextRequest) {
       subcategoryName: i.subcategory.name,
       subcategorySlug: i.subcategory.slug,
       weight: i.weight,
-      createdAt: i.createdAt,
     })),
     savedItems: savedItems.map((s) => ({
       savedItemId: s.id,

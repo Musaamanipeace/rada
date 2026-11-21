@@ -236,12 +236,12 @@ export function CataloguesView() {
             return (
               <div
                 key={category.id}
-                className={clsx(
-                  "rounded-2xl border transition-colors overflow-hidden",
-                  hasItems
-                    ? "border-border bg-card shadow-sm"
-                    : "border-border/50 bg-muted/20 opacity-60",
-                )}
+                  className={clsx(
+                    "rounded-2xl border transition-colors overflow-hidden",
+                    hasItems
+                      ? "border-border bg-card shadow-sm"
+                      : "border-border/30 bg-muted",
+                  )}
               >
                 {/* Category Shelf Header */}
                 <button

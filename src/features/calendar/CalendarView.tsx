@@ -52,6 +52,13 @@ export function CalendarView() {
   const [viewMode, setViewMode] = useState<"month" | "agenda">("month");
   const [currentDate, setCurrentDate] = useState(new Date());
 
+  useEffect(() => {
+    // Default to agenda view on mobile viewports (< 768px) per Section 8.4
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      setViewMode("agenda");
+    }
+  }, []);
+
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [titleInput, setTitleInput] = useState("");
@@ -222,11 +229,11 @@ export function CalendarView() {
           <a
             href="/api/calendar.ics"
             download="rada-calendar.ics"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-2 text-xs font-medium text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             aria-label="Export iCalendar feed (.ics)"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-2 text-xs font-medium text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <Download className="h-4 w-4" aria-hidden="true" />
-            <span className="hidden sm:inline">Export</span> .ics
+            <span className="hidden sm:inline">Export</span> iCalendar feed (.ics)
           </a>
 
           {/* View toggle (Month / Agenda) */}
@@ -394,7 +401,7 @@ export function CalendarView() {
                       className={clsx(
                         "rounded-xl border p-4 transition-colors space-y-2",
                         ev.doneAt
-                          ? "border-border bg-card/60 opacity-75"
+                          ? "border-border bg-card"
                           : ev.dateChangeNotice
                           ? "border-amber-500/40 bg-amber-500/5"
                           : "border-border bg-card",
@@ -405,7 +412,7 @@ export function CalendarView() {
                           <h3
                             className={clsx(
                               "font-semibold text-base",
-                              ev.doneAt ? "line-through text-muted-foreground" : "text-foreground",
+                              ev.doneAt ? "line-through text-foreground" : "text-foreground",
                             )}
                           >
                             {ev.title}
