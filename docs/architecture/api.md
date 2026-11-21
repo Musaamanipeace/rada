@@ -67,6 +67,29 @@ Records an in-app interaction (`open`, `calendar_add`) in the append-only `inter
 - **Body:** `{ itemId: string, type: 'open' | 'calendar_add' }`
 - **Response (`201 Created`):** `{ ok: true }`
 
+#### `GET /api/me/interests`
+Returns the owner's stated subcategory interests, ordered by weight descending.
+- **Auth:** Authenticated user or guest token.
+- **Response (`200 OK`):** `{ interests: Array<{ subcategoryId, weight, subcategory: { id, slug, name } }> }`
+
+#### `PUT /api/me/interests`
+Atomically replaces all stated interests (minimum 3, maximum 34 subcategories).
+- **Auth:** Authenticated user or guest token.
+- **Body:** `{ subcategoryIds: string[] }` (min 3, max 34)
+- **Response (`200 OK`):** `{ interests: string[] }` (echoes subcategoryIds)
+- **Errors:** `400 VALIDATION_ERROR` if fewer than 3 subcategories or any ID is invalid.
+
+#### `GET /api/me/settings`
+Returns persisted user preferences (`thumbnails_hidden`, `region`). Guests receive `{ settings: null }` and must use `localStorage`.
+- **Auth:** Authenticated user (guests get `null`).
+- **Response (`200 OK`):** `{ settings: { thumbnailsHidden: boolean, region: string | null } | null }`
+
+#### `PATCH /api/me/settings`
+Updates `thumbnails_hidden` and/or `region` for authenticated users. Guest requests are silently ignored (preferences live in `localStorage` only).
+- **Auth:** Authenticated user (guests silently succeed with `{ settings: null }`).
+- **Body:** `{ thumbnailsHidden?: boolean, region?: string | null }`
+- **Response (`200 OK`):** `{ settings: { thumbnailsHidden: boolean, region: string | null } }`
+
 ---
 
 ### 2.2 My Catalogues
@@ -124,7 +147,7 @@ Autosaves up to 5 suggestions for a specific subcategory screen.
         "url": "string (valid http/https link)",
         "pickType": "useful | impactful | favorite",
         "topicId": "string (optional)",
-        "note": "string (max 140 chars, optional)"
+        "note": "string (max 250 chars, optional)"
       }
     ]
   }

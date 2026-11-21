@@ -112,7 +112,7 @@ export async function validateTaxonomy() {
     throw new Error(`DB topics count mismatch: expected ${topicCount}, got ${dbTopCount}`);
   }
 
-  console.log("✅ DB seeded records verified: 10 categories, 34 subcategories, 139 topics.");
+  console.log(`✅ DB seeded records verified: 10 categories, 34 subcategories, ${dbTopCount} topics.`);
 
   // 3. Test composite foreign key constraints at database level
   console.log("Testing database composite parent-child constraints...");

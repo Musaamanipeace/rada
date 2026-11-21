@@ -23,7 +23,7 @@
   - [x] Welcome screen with required explicit consent (`consent_at`).
   - [x] Category selection screen (at least one category required).
   - [x] Subcategory suggestion screens (one per subcategory in chosen categories; up to 5 suggestions per subcategory or Skip; autosaved progress so user can finish any time).
-  - [x] Suggestion validation: `title` (required), `url` (valid http/https link required), `pick_type` (`useful` | `impactful` | `favorite`, required), optional `topic_id`, optional `note` (max 140 chars); `category` and `subcategory` inherited from screen so nothing arrives uncategorised; summary displays clickable title previews.
+  - [x] Suggestion validation: `title` (required), `url` (valid http/https link required), `pick_type` (`useful` | `impactful` | `favorite`, required), optional `topic_id`, optional `note` (max 250 chars); `category` and `subcategory` inherited from screen so nothing arrives uncategorised; summary displays clickable title previews.
   - [x] Summary & signup prompt: keep picks and create an account, skip signup (anonymous retention disclosed per `O8`), or delete answers.
   - [x] Thank-you screen with share link; copy states **"submitted for review"**, never *"added to the library"*.
   - [x] Anti-abuse: max 5 per subcategory, one response per email, spam trap, and endpoint rate limits (`POST /api/survey/sessions`, `PUT /api/survey/sessions/:id/suggestions`, `POST /api/survey/sessions/:id/finish`).

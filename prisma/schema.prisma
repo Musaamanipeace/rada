@@ -309,7 +309,7 @@ model SurveySuggestion {
   title         String
   url           String
   pickType      PickType         @map("pick_type")
-  note          String?          @db.VarChar(140)
+  note          String?          @db.VarChar(250)
   status        SuggestionStatus @default(PENDING)
   itemId        String?          @map("item_id")
 

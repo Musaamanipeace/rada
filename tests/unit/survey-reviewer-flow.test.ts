@@ -109,4 +109,47 @@ describe("Survey & Moderation Reviewer Flow", () => {
       expect(sub._count.items).toBeGreaterThanOrEqual(0);
     }
   });
+
+  it("enforces VARCHAR(250) limit on survey suggestion note", async () => {
+    const sub = await db.subcategory.findFirst({ include: { topics: true } });
+    expect(sub).toBeTruthy();
+
+    const session = await db.surveySession.create({
+      data: {
+        owner: "test_note_limit_owner",
+        consentAt: new Date(),
+      },
+    });
+
+    const note250 = "a".repeat(250);
+    const created = await db.surveySuggestion.create({
+      data: {
+        sessionId: session.id,
+        subcategoryId: sub!.id,
+        topicId: sub!.topics[0]?.id ?? null,
+        title: "Note Limit Test",
+        url: "https://example.com/note-limit",
+        pickType: "USEFUL",
+        note: note250,
+      },
+    });
+    expect(created.note).toHaveLength(250);
+
+    await expect(
+      db.surveySuggestion.create({
+        data: {
+          sessionId: session.id,
+          subcategoryId: sub!.id,
+          topicId: sub!.topics[0]?.id ?? null,
+          title: "Note Too Long Test",
+          url: "https://example.com/note-too-long",
+          pickType: "USEFUL",
+          note: "a".repeat(251),
+        },
+      })
+    ).rejects.toThrow();
+
+    await db.surveySuggestion.delete({ where: { id: created.id } });
+    await db.surveySession.delete({ where: { id: session.id } });
+  });
 });

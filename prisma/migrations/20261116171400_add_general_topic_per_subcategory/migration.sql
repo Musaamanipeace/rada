@@ -1,0 +1,92 @@
+-- Ensure base categories exist
+INSERT INTO "categories" ("id", "slug", "name", "sort")
+VALUES
+  ('cat-read', 'read', 'Read', 1),
+  ('cat-watch', 'watch', 'Watch', 2),
+  ('cat-listen', 'listen', 'Listen', 3),
+  ('cat-learn', 'learn', 'Learn', 4),
+  ('cat-play', 'play', 'Play', 5),
+  ('cat-connect', 'connect', 'Connect', 6),
+  ('cat-make-and-explore', 'make-and-explore', 'Make and Explore', 7),
+  ('cat-attend-and-experience', 'attend-and-experience', 'Attend and Experience', 8),
+  ('cat-improve-and-contribute', 'improve-and-contribute', 'Improve and Contribute', 9),
+  ('cat-earn-and-build', 'earn-and-build', 'Earn and Build', 10)
+ON CONFLICT ("id") DO UPDATE SET "slug" = EXCLUDED."slug", "name" = EXCLUDED."name", "sort" = EXCLUDED."sort";
+
+-- Ensure base subcategories exist
+INSERT INTO "subcategories" ("id", "parent_id", "slug", "name", "sort")
+VALUES
+  ('sub-news-articles', 'cat-read', 'news-articles', 'News and articles', 1),
+  ('sub-books', 'cat-read', 'books', 'Books', 2),
+  ('sub-blogs-and-newsletters', 'cat-read', 'blogs-and-newsletters', 'Blogs and newsletters', 3),
+  ('sub-guides-and-other-written-resources', 'cat-read', 'guides-and-other-written-resources', 'Guides and other written resources', 4),
+  ('sub-movies', 'cat-watch', 'movies', 'Movies', 1),
+  ('sub-series', 'cat-watch', 'series', 'Series', 2),
+  ('sub-documentaries', 'cat-watch', 'documentaries', 'Documentaries', 3),
+  ('sub-videos-creators-and-livestreams', 'cat-watch', 'videos-creators-and-livestreams', 'Videos, creators and livestreams', 4),
+  ('sub-music', 'cat-listen', 'music', 'Music', 1),
+  ('sub-podcasts', 'cat-listen', 'podcasts', 'Podcasts', 2),
+  ('sub-audiobooks-radio-and-other-audio', 'cat-listen', 'audiobooks-radio-and-other-audio', 'Audiobooks, radio and other audio', 3),
+  ('sub-online-courses', 'cat-learn', 'online-courses', 'Online courses', 1),
+  ('sub-tutorials-and-practical-skills', 'cat-learn', 'tutorials-and-practical-skills', 'Tutorials and practical skills', 2),
+  ('sub-career-and-professional-development', 'cat-learn', 'career-and-professional-development', 'Career and professional development', 3),
+  ('sub-online-games', 'cat-play', 'online-games', 'Online games', 1),
+  ('sub-puzzles-quizzes-simulations-and-interactive-stories', 'cat-play', 'puzzles-quizzes-simulations-and-interactive-stories', 'Puzzles, quizzes, simulations and interactive stories', 2),
+  ('sub-social-media-accounts', 'cat-connect', 'social-media-accounts', 'Social media accounts', 1),
+  ('sub-forums-and-online-communities', 'cat-connect', 'forums-and-online-communities', 'Forums and online communities', 2),
+  ('sub-discussion-groups-and-clubs', 'cat-connect', 'discussion-groups-and-clubs', 'Discussion groups and clubs', 3),
+  ('sub-hobbies-crafts-and-diy-projects', 'cat-make-and-explore', 'hobbies-crafts-and-diy-projects', 'Hobbies, crafts and DIY projects', 1),
+  ('sub-creative-prompts-and-projects', 'cat-make-and-explore', 'creative-prompts-and-projects', 'Creative prompts and projects', 2),
+  ('sub-apps-tools-and-useful-websites', 'cat-make-and-explore', 'apps-tools-and-useful-websites', 'Apps, tools and useful websites', 3),
+  ('sub-online-events', 'cat-attend-and-experience', 'online-events', 'Online events', 1),
+  ('sub-in-person-events', 'cat-attend-and-experience', 'in-person-events', 'In-person events', 2),
+  ('sub-virtual-tours-and-places-to-explore', 'cat-attend-and-experience', 'virtual-tours-and-places-to-explore', 'Virtual tours and places to explore', 3),
+  ('sub-local-activities', 'cat-attend-and-experience', 'local-activities', 'Local activities', 4),
+  ('sub-wellness-and-fitness', 'cat-improve-and-contribute', 'wellness-and-fitness', 'Wellness and fitness', 1),
+  ('sub-volunteering-and-community-causes', 'cat-improve-and-contribute', 'volunteering-and-community-causes', 'Volunteering and community causes', 2),
+  ('sub-civic-or-environmental-participation', 'cat-improve-and-contribute', 'civic-or-environmental-participation', 'Civic or environmental participation', 3),
+  ('sub-passive-income-activities', 'cat-earn-and-build', 'passive-income-activities', 'Passive-income activities', 1),
+  ('sub-scholarships-and-grants', 'cat-earn-and-build', 'scholarships-and-grants', 'Scholarships and grants', 2),
+  ('sub-hackathons-and-competitions', 'cat-earn-and-build', 'hackathons-and-competitions', 'Hackathons and competitions', 3),
+  ('sub-side-projects-and-small-businesses', 'cat-earn-and-build', 'side-projects-and-small-businesses', 'Side projects and small businesses', 4),
+  ('sub-money-and-career-resources', 'cat-earn-and-build', 'money-and-career-resources', 'Money and career resources', 5)
+ON CONFLICT ("id") DO UPDATE SET "slug" = EXCLUDED."slug", "name" = EXCLUDED."name", "sort" = EXCLUDED."sort", "parent_id" = EXCLUDED."parent_id";
+
+-- Add General / All topics to every subcategory for multi-topic platforms and resources
+INSERT INTO "topics" ("id", "parent_id", "slug", "name", "sort")
+VALUES
+  ('top-news-articles-general', 'sub-news-articles', 'news-articles-general', 'General / All topics', 7),
+  ('top-books-general', 'sub-books', 'books-general', 'General / All topics', 7),
+  ('top-blogs-and-newsletters-general', 'sub-blogs-and-newsletters', 'blogs-and-newsletters-general', 'General / All topics', 6),
+  ('top-guides-and-other-written-resources-general', 'sub-guides-and-other-written-resources', 'guides-and-other-written-resources-general', 'General / All topics', 5),
+  ('top-movies-general', 'sub-movies', 'movies-general', 'General / All topics', 5),
+  ('top-series-general', 'sub-series', 'series-general', 'General / All topics', 5),
+  ('top-documentaries-general', 'sub-documentaries', 'documentaries-general', 'General / All topics', 6),
+  ('top-videos-creators-and-livestreams-general', 'sub-videos-creators-and-livestreams', 'videos-creators-and-livestreams-general', 'General / All topics', 5),
+  ('top-music-general', 'sub-music', 'music-general', 'General / All topics', 5),
+  ('top-podcasts-general', 'sub-podcasts', 'podcasts-general', 'General / All topics', 6),
+  ('top-audiobooks-radio-and-other-audio-general', 'sub-audiobooks-radio-and-other-audio', 'audiobooks-radio-and-other-audio-general', 'General / All topics', 5),
+  ('top-online-courses-general', 'sub-online-courses', 'online-courses-general', 'General / All topics', 5),
+  ('top-tutorials-and-practical-skills-general', 'sub-tutorials-and-practical-skills', 'tutorials-and-practical-skills-general', 'General / All topics', 6),
+  ('top-career-and-professional-development-general', 'sub-career-and-professional-development', 'career-and-professional-development-general', 'General / All topics', 5),
+  ('top-online-games-general', 'sub-online-games', 'online-games-general', 'General / All topics', 5),
+  ('top-puzzles-quizzes-simulations-and-interactive-stories-general', 'sub-puzzles-quizzes-simulations-and-interactive-stories', 'puzzles-quizzes-simulations-and-interactive-stories-general', 'General / All topics', 5),
+  ('top-social-media-accounts-general', 'sub-social-media-accounts', 'social-media-accounts-general', 'General / All topics', 5),
+  ('top-forums-and-online-communities-general', 'sub-forums-and-online-communities', 'forums-and-online-communities-general', 'General / All topics', 5),
+  ('top-discussion-groups-and-clubs-general', 'sub-discussion-groups-and-clubs', 'discussion-groups-and-clubs-general', 'General / All topics', 4),
+  ('top-hobbies-crafts-and-diy-projects-general', 'sub-hobbies-crafts-and-diy-projects', 'hobbies-crafts-and-diy-projects-general', 'General / All topics', 5),
+  ('top-creative-prompts-and-projects-general', 'sub-creative-prompts-and-projects', 'creative-prompts-and-projects-general', 'General / All topics', 5),
+  ('top-apps-tools-and-useful-websites-general', 'sub-apps-tools-and-useful-websites', 'apps-tools-and-useful-websites-general', 'General / All topics', 5),
+  ('top-online-events-general', 'sub-online-events', 'online-events-general', 'General / All topics', 5),
+  ('top-in-person-events-general', 'sub-in-person-events', 'in-person-events-general', 'General / All topics', 5),
+  ('top-virtual-tours-and-places-to-explore-general', 'sub-virtual-tours-and-places-to-explore', 'virtual-tours-and-places-to-explore-general', 'General / All topics', 4),
+  ('top-local-activities-general', 'sub-local-activities', 'local-activities-general', 'General / All topics', 5),
+  ('top-wellness-and-fitness-general', 'sub-wellness-and-fitness', 'wellness-and-fitness-general', 'General / All topics', 5),
+  ('top-volunteering-and-community-causes-general', 'sub-volunteering-and-community-causes', 'volunteering-and-community-causes-general', 'General / All topics', 5),
+  ('top-civic-or-environmental-participation-general', 'sub-civic-or-environmental-participation', 'civic-or-environmental-participation-general', 'General / All topics', 4),
+  ('top-passive-income-activities-general', 'sub-passive-income-activities', 'passive-income-activities-general', 'General / All topics', 4),
+  ('top-scholarships-and-grants-general', 'sub-scholarships-and-grants', 'scholarships-and-grants-general', 'General / All topics', 5),
+  ('top-hackathons-and-competitions-general', 'sub-hackathons-and-competitions', 'hackathons-and-competitions-general', 'General / All topics', 5),
+  ('top-side-projects-and-small-businesses-general', 'sub-side-projects-and-small-businesses', 'side-projects-and-small-businesses-general', 'General / All topics', 4),
+  ('top-money-and-career-resources-general', 'sub-money-and-career-resources', 'money-and-career-resources-general', 'General / All topics', 5)
+ON CONFLICT ("id") DO NOTHING;

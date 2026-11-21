@@ -152,8 +152,8 @@ export function SurveyFlow() {
   };
 
   // Autosave and advance
-  const saveCurrentSubcategory = async () => {
-    if (!sessionId || !currentSub) return;
+  const saveCurrentSubcategory = async (): Promise<boolean> => {
+    if (!sessionId || !currentSub) return true;
 
     // Filter non-empty suggestions: require both title and url
     const validPicks = currentSuggestions.filter(
@@ -161,7 +161,7 @@ export function SurveyFlow() {
     );
 
     if (validPicks.length > 0) {
-      await fetch(`/api/survey/sessions/${sessionId}/suggestions`, {
+      const res = await fetch(`/api/survey/sessions/${sessionId}/suggestions`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -171,17 +171,25 @@ export function SurveyFlow() {
             url: s.url.trim(),
             pickType: s.pickType,
             topicId: s.topicId || undefined,
-            note: s.note.trim() ? s.note.trim().slice(0, 140) : undefined,
+            note: s.note.trim() ? s.note.trim().slice(0, 250) : undefined,
           })),
         }),
       });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => null);
+        setErrorMsg(errData?.error?.message || "Failed to save suggestions.");
+        return false;
+      }
     }
+    setErrorMsg(null);
+    return true;
   };
 
   const handleNextSubcategory = async () => {
     setLoading(true);
-    await saveCurrentSubcategory();
+    const saved = await saveCurrentSubcategory();
     setLoading(false);
+    if (!saved) return;
 
     if (currentSubIndex + 1 < subcategoriesToVisit.length) {
       setCurrentSubIndex(currentSubIndex + 1);
@@ -200,8 +208,9 @@ export function SurveyFlow() {
 
   const handleFinishEarly = async () => {
     setLoading(true);
-    await saveCurrentSubcategory();
+    const saved = await saveCurrentSubcategory();
     setLoading(false);
+    if (!saved) return;
     setStep("summary");
   };
 
@@ -467,20 +476,31 @@ export function SurveyFlow() {
                     <label className="block text-xs font-semibold mb-1">
                       Topic (Optional)
                     </label>
-                    <select
-                      value={sugg.topicId}
-                      onChange={(e) =>
-                        handleUpdateSuggestion(idx, "topicId", e.target.value)
+                    <input
+                      type="text"
+                      list={`topics-list-${currentSub.subId}-${idx}`}
+                      value={
+                        currentSub.topics.find((t) => t.id === sugg.topicId)?.name ?? sugg.topicId
                       }
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        const match = currentSub.topics.find(
+                          (t) =>
+                            t.name.toLowerCase() === val.toLowerCase() ||
+                            t.id === val
+                        );
+                        handleUpdateSuggestion(idx, "topicId", match ? match.id : val);
+                      }}
+                      placeholder="Type or select topic..."
                       className="w-full rounded-md border border-input bg-background px-2.5 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    >
-                      <option value="">(Select topic)</option>
+                    />
+                    <datalist id={`topics-list-${currentSub.subId}-${idx}`}>
                       {currentSub.topics.map((t) => (
-                        <option key={t.id} value={t.id}>
+                        <option key={t.id} value={t.name}>
                           {t.name}
                         </option>
                       ))}
-                    </select>
+                    </datalist>
                   </div>
                 </div>
 
@@ -488,17 +508,17 @@ export function SurveyFlow() {
                   <div className="flex items-center justify-between text-xs font-semibold mb-1">
                     <label>Short Note (Optional)</label>
                     <span className="text-muted-foreground font-normal">
-                      {140 - (sugg.note?.length || 0)} left
+                      {250 - (sugg.note?.length || 0)} left
                     </span>
                   </div>
                   <input
                     type="text"
-                    maxLength={140}
+                    maxLength={250}
                     value={sugg.note}
                     onChange={(e) =>
                       handleUpdateSuggestion(idx, "note", e.target.value)
                     }
-                    placeholder="Why do you recommend this? (max 140 chars)"
+                    placeholder="Why do you recommend this? (max 250 chars)"
                     className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   />
                 </div>

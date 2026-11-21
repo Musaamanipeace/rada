@@ -70,7 +70,7 @@ All ranking weights live in a single canonical file: `src/lib/ranking/weights.ts
    - `open`: `+1`
    - `dismiss`: `-3` (plus hard exclusion—never show a dismissed item again)
 3. **Boosts:**
-   - Small **popularity boost** from `items.popularity_count`.
+   - **Popularity boost** from `items.popularity_count`, which tracks the number of people who suggested the same content (incremented when duplicate suggestions are merged) so items can be organized and prioritized by suggestion count.
    - **Freshness boost** for upcoming dated items (`starts_at > now`).
 
 ### 3.2 Batch Composition & Exclusions

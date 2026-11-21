@@ -36,7 +36,7 @@ const suggestionItemSchema = z.object({
     errorMap: () => ({ message: "Pick type must be 'useful', 'impactful', or 'favorite'" }),
   }),
   topicId: z.string().trim().optional().nullable(),
-  note: z.string().trim().max(140, "Note must be at most 140 characters").optional().nullable(),
+  note: z.string().trim().max(250, "Note must be at most 250 characters").optional().nullable(),
 });
 
 const putSuggestionsSchema = z.object({

@@ -43,7 +43,10 @@ Rada is a simple, cross-platform web app (an installable PWA) for discovering th
   - Filter toggles for **Free/Paid**, **Upcoming**, and **Local**.
   - **Hide thumbnails** toggle.
 - **Item card:**
-  - Thumbnail (hideable), title, source name, category tag, cost badge, date (if dated), and action buttons: **Save**, **Open** (opens in new tab with `rel="noopener noreferrer"`), **Not interested** (dismiss), plus **Add to calendar** on dated items only.
+  - Thumbnail (hideable), title, source name, category tag, cost badge (`Free` combining freemium/free tier per `D28`, or `Paid`), date (if dated), and action buttons: **Save**, **Open** (opens in new tab with `rel="noopener noreferrer"`), **Not interested** (dismiss), plus **Add to calendar** on dated items only.
+  - Entertainment & movies: cards clearly present release year and creative attribution; unreleased/upcoming movies with future release dates use `starts_at` to trigger the **Upcoming** filter and provide **Add to calendar** (`D5`, `O18`).
+- **Unified stream architecture:**
+  - Aggregates all 10 taxonomy categories into a single, cohesive feed stream—giving users a clean, distraction-free view across articles, courses, books, tools, games, videos, and events without switching apps or tabs.
 - **Scrolling & states:**
   - Endless scroll with list virtualization (`@tanstack/react-virtual`).
   - Loading state displays skeleton cards.
@@ -91,11 +94,12 @@ Rada is a simple, cross-platform web app (an installable PWA) for discovering th
   - `title_or_url` (required)
   - `pick_type`: `useful` | `impactful` | `favorite` (required)
   - `topic_id` (optional)
-  - `note` (optional, max 140 characters)
+  - `note` (optional, max 250 characters)
   - Category and subcategory are inherited from the active screen, guaranteeing nothing arrives uncategorised.
 - **Moderation & copy rules:**
   - Nothing goes live automatically; a human reviewer approves, rejects, or merges duplicates.
-  - Merged duplicates increment `popularity_count` on the canonical item.
+  - Merged duplicates increment `popularity_count` on the canonical item, tracking how many people suggested the same content so it can be organized and prioritized by suggestion count as the library grows.
+  - Owner-curated seed items can also be prepared offline in [`docs/offline-survey.md`](../offline-survey.md) and [`data/seed/offline-survey.csv`](../../data/seed/offline-survey.csv) while keeping the public survey open for community suggestions.
   - UI copy must state **"submitted for review"**, never *"added to the library"*.
 - **Anti-abuse & targets:**
   - Maximum 3 suggestions per subcategory, one response per email, honeypot/spam trap, and endpoint rate limits.
@@ -140,6 +144,14 @@ Rada is a simple, cross-platform web app (an installable PWA) for discovering th
   - Subsequent views are billed from a prepaid balance at the active `rate_card`.
   - At launch, payments are agreed offline with the Owner, who adds credit manually via an admin screen (`POST /api/admin/advertisers/:id/credit`); advertisers can submit a top-up request from the portal.
 - **Reporting & controls:** Daily stats (impressions, qualified views, completion rate, clicks, CTR, free vs. paid views, spend) with CSV export. Category breakdowns are shown only when the audience threshold (default 20 qualified views) is met. Advertisers can pause, resume, end, or duplicate campaigns, request top-ups, and view their ledger.
+
+### 3.10 Suggestion Requests (`Proposed` — Phase 8)
+
+- **Purpose:** Allow people to ask the community for specific content recommendations (e.g., *"Looking for beginner-friendly podcasts on African history"* or *"Free weekend workshops in Nairobi"*) and have those requests appear directly in the discovery feed.
+- **Strict Taxonomy (`D2`, Rule 5):** Every request must select a valid `category`, `subcategory`, and `topic` (plus optional `cost` preference and `region`) so it is filterable alongside regular items and never appears uncategorised.
+- **Feed Integration:** Approved requests appear in the virtualized feed stream with a distinct `Request` badge, reply count, and a **"Suggest something"** action. Respects all active feed filters (category chips, `Free/Paid`, `Local`, `Variety`) and `Hide thumbnails`.
+- **Community Replies & Moderation:** Tapping **"Suggest something"** opens a lightweight form pre-filled with the request's taxonomy (`title`, `url`, optional `note`). Replies enter the human review queue (`/review`) with copy stating **"submitted for review"**. Approved replies link or create canonical `items` (incrementing `popularity_count` on duplicates).
+- **Ad & Privacy Isolation:** Requests and replies are strictly first-party, never contain ads (`D7`), and follow `docs/privacy.md`.
 
 ---
 

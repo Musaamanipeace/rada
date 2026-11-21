@@ -16,7 +16,7 @@ For every pending item or survey suggestion in the review queue, the reviewer pe
 
 1. **Approve (`status = 'approved'`):** Publishes the item to the discovery feed and records `reviewed_by`.
 2. **Fix Taxonomy & Approve:** Assigns or corrects the `category_id`, `subcategory_id`, and `topic_id` (ensuring all three levels match [`data/taxonomy.json`](../data/taxonomy.json)) before approving.
-3. **Merge Duplicate (`status = 'duplicate'`):** Links the duplicate suggestion/item to the existing canonical `item_id` and increments `items.popularity_count` on the canonical item (`+1`).
+3. **Merge Duplicate (`status = 'duplicate'`):** Links the duplicate suggestion/item to the existing canonical `item_id` and increments `items.popularity_count` on the canonical item (`+1`). Because multiple people may suggest the same content, `popularity_count` tracks the total number of people who suggested it so content can be organized and prioritized by suggestion count.
 4. **Reject (`status = 'rejected'`):** Permanently excludes the item from appearing in the feed.
 
 ---
@@ -35,10 +35,11 @@ Before clicking **Approve** on any item, a reviewer must verify all five gates:
 - [ ] **3. Clear Metadata & Date Accuracy:**
   - `title` and `source_name` accurately identify the content and creator/publisher.
   - `description` (if present) is concise (≤ 280 characters), factual, and non-promotional.
-  - `cost` (`free` | `paid` | `unknown`) is accurate.
+  - `cost` (`free` | `paid` | `unknown`) is accurate (`free` includes both completely free and freemium/partially-free items with a usable free tier, with upgrades noted in `description`; `paid` covers paywalled or paid-only items, per `D28`).
   - For dated items (events, releases, hackathons, scholarships), `starts_at`, `ends_at`, and `timezone` are accurate and still in the future.
 - [ ] **4. Duplicate Check:**
-  - Verify whether the URL or normalized title already exists in `items`. If it does, use **Merge Duplicate** so `popularity_count` rises on the existing item instead of creating a duplicate entry.
+  - Verify whether the URL or normalized title already exists in `items`. If it does, use **Merge Duplicate** so `popularity_count` rises on the existing item instead of creating a duplicate entry, allowing content to be organized by the number of people who suggested it.
+  - *Multi-source content (`TBD`):* When the same suggested content is available from multiple sources/URLs, the rule for which canonical source to list is still undecided — see **O12** in [`docs/product/open-questions.md`](./product/open-questions.md).
 - [ ] **5. Safety & Quality Standards:**
   - Reject anything harmful, illegal, hateful, sexually explicit, spammy, or misleading.
   - Reject low-effort link farms or deceptive affiliate pages.
