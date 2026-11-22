@@ -1,6 +1,14 @@
 import "@testing-library/jest-dom";
 import { vi } from "vitest";
 
+vi.mock("nodemailer", () => ({
+  default: {
+    createTransport: vi.fn().mockReturnValue({
+      sendMail: vi.fn().mockResolvedValue({ messageId: "mock-id" }),
+    }),
+  },
+}));
+
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query: string) => ({
