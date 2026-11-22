@@ -18,7 +18,7 @@ describe("Discovery Feed Ranking Engine (Phase 2)", () => {
     const approvedItem = await db.item.findFirst({
       where: { status: ItemStatus.APPROVED },
     });
-    expect(approvedItem).toBeDefined();
+    expect(approvedItem).not.toBeNull();
     if (!approvedItem) return;
 
     // Record dismiss interaction
@@ -43,7 +43,7 @@ describe("Discovery Feed Ranking Engine (Phase 2)", () => {
     const approvedItem = await db.item.findFirst({
       where: { status: ItemStatus.APPROVED },
     });
-    expect(approvedItem).toBeDefined();
+    expect(approvedItem).not.toBeNull();
     if (!approvedItem) return;
 
     // Save item

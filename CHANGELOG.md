@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- **CI:** Import and approve the content seed library (`data/seed/seed-library.csv`) after taxonomy seeding and before unit tests, so ranking-engine tests run against the expected 536 approved items instead of an empty database. Hardened the two ranking-engine assertions that could pass vacuously when no approved item exists.
+
 ### Added
 
 - **Phase 2 — Discovery Feed and Onboarding:**
