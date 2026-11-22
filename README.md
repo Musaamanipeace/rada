@@ -2,7 +2,7 @@
 
 Rada is a simple, cross-platform installable progressive web app (PWA) for discovering things to do online and offline.
 
-It features:
+It features mayne:
 - **Content Suggestion:** An endless, virtualized discovery feed across 10 categories, 34 subcategories, and curated topics, with **Variety mode**, **Hide thumbnails**, and **My Catalogues** for private saved items.
 - **Calendar:** Month and agenda views for dated items and personal plans, with reminders, completion history, and `.ics` export.
 - **Portfolio:** A clean, fast personal portfolio builder (`<domain>/<username>`) with templates and an opt-in AI copy assistant.
