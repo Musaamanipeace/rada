@@ -88,6 +88,9 @@ jobs:
       - name: Seed taxonomy
         run: pnpm db:seed
 
+      - name: Import approved content seed library
+        run: pnpm tsx scripts/import-seed-csv.ts data/seed/seed-library.csv --auto-approve
+
       - name: Automated taxonomy validation
         run: pnpm test:taxonomy
 
